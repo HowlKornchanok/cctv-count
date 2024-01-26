@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ThemeService } from 'src/app/core/services/theme.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SumVehDataService } from 'src/app/core/services/sum-veh-data.service';
+
 @Component({
     selector: '[api-stacked-column]',
     templateUrl: './api-stacked-column.component.html',
     standalone: true,
-    imports: [AngularSvgIconModule, NgApexchartsModule],
+    imports: [NgApexchartsModule],
     styles: [],
     providers: [SumVehDataService]
 })
