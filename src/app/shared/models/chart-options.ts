@@ -16,6 +16,7 @@ import {
   ApexResponsive,
   ApexPlotOptions,
   ApexMarkers,
+  ApexNonAxisChartSeries,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -38,4 +39,7 @@ export type ChartOptions = {
   responsive: ApexResponsive[];
   plotOptions: ApexPlotOptions;
   markers: ApexMarkers;
+  nonaxisseries: ApexNonAxisChartSeries;
+  labels:any;
+  
 };

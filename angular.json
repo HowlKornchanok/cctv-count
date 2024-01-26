@@ -31,7 +31,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ol/ol.css",
+              {
+                "input": "node_modules/ol/ol.css",
+                "inject": false,
+                "bundleName": "Olcss"
+
+              }
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"
@@ -105,6 +112,7 @@
             ],
             "styles": [
               "src/styles.scss"
+
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"

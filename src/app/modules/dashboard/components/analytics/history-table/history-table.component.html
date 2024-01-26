@@ -1,0 +1,39 @@
+
+    <div style="width: 100%;">
+
+        
+        <div class="dropdown">
+          <button class="dropbtn">Select Time Range</button>
+          <div class="dropdown-content">
+            <a (click)="changeFilter('1day')">Last 1 Day</a>
+            <a (click)="changeFilter('7days')">Last 7 Days</a>
+            <a (click)="changeFilter('1month')">Last 1 Month</a>
+          </div>
+          <div class="pagination-controls">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+          </div>
+        </div>
+    
+        
+        <table class="w-full table-auto">
+            <thead class="text-xs uppercase text-gray-400 dark:text-night-300">
+              <tr>
+                <th class="py-3 text-left">Date</th>
+                <th class="py-3 text-right">Speed</th>
+                 <th class="py-3 text-right">Vehicle Type</th>
+                <!-- Add more columns as needed based on your data structure -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of jsonData.slice((currentPage-1)*itemsPerPage, currentPage*itemsPerPage)" class="border-b border-dashed border-gray-200 hover:bg-gray-100 dark:border-night-500 dark:hover:bg-night-600">
+                <td class =" text-gray-900 dark:text-night-50">{{ item.date | date:'short' }}</td>
+                <td class="py-3 text-right font-bold text-gray-900 dark:text-night-50">{{ item.speed }}</td>
+                <td class="py-3 text-right font-bold text-gray-900 dark:text-night-50">{{ item.vehicleType }}</td>
+                <!-- Add more columns as needed based on your data structure -->
+              </tr>
+            </tbody>
+          </table>
+          
+          <!-- Add pagination controls -->

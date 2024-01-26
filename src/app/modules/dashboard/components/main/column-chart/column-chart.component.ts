@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/core/services/theme.service';
-import { ChartOptions } from '../../../../../shared/models/chart-options';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
@@ -12,6 +12,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     imports: [AngularSvgIconModule, NgApexchartsModule],
     styles: []
 })
+
 export class MainColumnChart implements OnInit, OnDestroy {
   public chartOptions: Partial<ChartOptions>;
 
@@ -20,11 +21,18 @@ export class MainColumnChart implements OnInit, OnDestroy {
     const truckData = [33, 55, 32, 58, 41, 34, 23,34, 55, 32, 58, 41,]; 
     const carData = [95, 83, 79, 97, 72, 66, 95,95, 83, 79, 97, 72, ];
     const motorbikeData = [122, 144, 212, 213, 126, 145, 142,122, 144, 212, 213, 126];
+    const busData = [22, 44, 12, 13, 26, 45, 42,22, 44, 12, 13, 26];
+    const sumTruck = truckData.reduce((acc, value) => acc + value, 0);
+    function sumVehicleType(data: number[]): number {
+      return data.reduce((sum, value) => sum + value, 0);
+    }
+    const sumBus = sumVehicleType(busData);
 
     const SumVehData = truckData.map((truckValue, index) => {
       const carValue = carData[index];
       const motorbikeValue = motorbikeData[index];
-      return truckValue + carValue + motorbikeValue;
+      const BusValue = busData[index];
+      return truckValue + carValue + motorbikeValue + BusValue;
     });
 
     
@@ -33,7 +41,7 @@ export class MainColumnChart implements OnInit, OnDestroy {
       series: [
         {
           name: "Truck",
-          data: truckData,
+          data: carData,
           type: 'bar'
         },
         {
@@ -45,6 +53,11 @@ export class MainColumnChart implements OnInit, OnDestroy {
         {
           name: "Motorbike",
           data: motorbikeData,
+          type: 'bar'
+        },
+        {
+          name: "Bus",
+          data: busData,
           type: 'bar'
         },
         {
@@ -69,7 +82,7 @@ export class MainColumnChart implements OnInit, OnDestroy {
       },
       dataLabels: {
         enabled: true,
-        enabledOnSeries: [3]
+        enabledOnSeries: [4]
       },
       responsive: [
         {
