@@ -1,0 +1,31 @@
+
+
+
+<div class="flex  flex-col-2 col-span-2">
+  <label for="timeRange" class=" col-span-1 text-gray-900 dark:text-night-50" >Select Time Range</label>
+  <select id="timeRange" class="rounded-md p-2 text-left col-1 text-gray-900 dark:text-night-50" (change)="changeFilter($event)">
+    <option value="1day">Last 1 Day</option>
+    <option value="7days">Last 7 Days</option>
+    <option value="1month">Last 1 Month</option>
+  </select>
+</div>
+<div class="flex min-h-[400px] flex-col-2 col-span-3 ">
+    <apx-chart style="width: 100%;"
+      [series]="chartOptions.series!"
+      [chart]="chartOptions.chart!"
+      [legend]="chartOptions.legend!"
+      [dataLabels]="chartOptions.dataLabels!"
+      [fill]="chartOptions.fill!"
+      [stroke]="chartOptions.stroke!"
+      [xaxis]="chartOptions.xaxis!"
+      [yaxis]="chartOptions.yaxis!"
+      [responsive]="chartOptions.responsive!"
+      [states]="chartOptions.states!"
+      [tooltip]="chartOptions.tooltip!"
+      [colors]="chartOptions.colors!"
+      [grid]="chartOptions.grid!"
+      [title]="chartOptions.title!"
+      [theme]="chartOptions.theme!"
+      >
+    </apx-chart>
+    </div>

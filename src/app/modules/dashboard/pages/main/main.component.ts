@@ -3,6 +3,8 @@ import { MainHeaderComponent } from '../../components/main/main-header/main-head
 import { MainColumnChart } from '../../components/main/column-chart/column-chart.component';
 import { MapComponent } from '../../components/main/map/map.component';
 import { BarRankingComponent } from '../../components/main/bar-ranking/bar-ranking.component';
+import { ApiStackedColumnComponent } from '../../components/main/api-stacked-column/api-stacked-column.component';
+import { SumBarComponent } from '../../components/main/sum-bar/sum-bar.component';
 
 
 @Component({
@@ -13,7 +15,9 @@ import { BarRankingComponent } from '../../components/main/bar-ranking/bar-ranki
         MainHeaderComponent,
         MainColumnChart,
         MapComponent,
-        BarRankingComponent
+        BarRankingComponent,
+        ApiStackedColumnComponent,
+        SumBarComponent
 
     ],
 })

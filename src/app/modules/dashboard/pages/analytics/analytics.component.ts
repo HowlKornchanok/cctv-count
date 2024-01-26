@@ -4,6 +4,7 @@ import { DonutVehComponent } from '../../components/analytics/donut-veh/donut-ve
 import { PCUComponent } from '../../components/analytics/pcu/pcu.component';
 import { SpeedGaugeComponent } from '../../components/analytics/speed-gauge/speed-gauge.component';
 import { HistoryTableComponent } from '../../components/analytics/history-table/history-table.component';
+import { APIDonutComponent } from '../../components/analytics/api-donut/api-donut.component';
 
 @Component({
     selector: 'app-analytics',
@@ -14,7 +15,7 @@ import { HistoryTableComponent } from '../../components/analytics/history-table/
         DonutVehComponent,
         PCUComponent,
         SpeedGaugeComponent,
-        HistoryTableComponent
+        APIDonutComponent
         
 
 

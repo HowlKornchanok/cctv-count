@@ -4,7 +4,7 @@ module.exports = {
   prefix: '',
   mode: 'jit',
   important: false,
-  content: ['./src/**/*.{html,ts}'],
+  content: ['./src/**/*.{html,ts}', './node_modules/preline/preline.js'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
@@ -102,6 +102,7 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
-    require('tailwind-scrollbar')
+    require('tailwind-scrollbar'),
+    require('preline/plugin'),
   ],
 }

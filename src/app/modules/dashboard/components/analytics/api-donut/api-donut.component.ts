@@ -1,29 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { HttpClientModule } from '@angular/common/http';
-import { DataService } from 'src/app/core/services/data.service';
+import { AfterViewChecked, AfterViewInit, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChartOptions } from 'src/app/shared/models/chart-options';
+import { OnDestroy, OnInit, effect } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartOptions } from 'src/app/shared/models/chart-options';
+import { DataService } from 'src/app/core/services/data.service';
+
 
 @Component({
-  selector: '[speed-gauge]',
+  selector: '[api-donut]',
   standalone: true,
-  templateUrl: './speed-gauge.component.html',
-  imports: [ NgApexchartsModule, HttpClientModule, CommonModule],
+  imports: [CommonModule,NgApexchartsModule],
+  templateUrl: './api-donut.component.html',
+  styleUrl: './api-donut.component.scss',
   providers: [DataService],
-  styleUrls:['./speed-gauge.component.scss']
 })
-export class SpeedGaugeComponent implements OnInit {
-  public jsonData: any[] = [];
-  public chartOptions: Partial<ChartOptions> = {};
+export class APIDonutComponent implements OnInit,OnDestroy{
+  public chartOptionsCar: Partial<ChartOptions> = {};
+  public chartOptionsMotorcycle: Partial<ChartOptions> = {};
+  public chartOptionsTruck: Partial<ChartOptions>  = {};
   private dataServiceSubscription: Subscription | undefined;
 
-  
   constructor(private dataService: DataService) {}
-  currentFilter: string = '7days';
-  
   ngOnInit(): void {
     this.loadData();
   }
@@ -37,56 +35,45 @@ export class SpeedGaugeComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.dataService.getData().subscribe(
-      (data) => {
-        this.jsonData = this.filterData(data, this.currentFilter);
-        this.chartOptions = this.generateChartOptions(this.jsonData);
-      },
-      (error) => {
-        console.error('Error fetching data:', error);
-      }
-    );
-  }
+    this.dataService.getData().subscribe((vehicleData) => {
+      const lastSevenDaysData = this.filterLastSevenDays(vehicleData);
 
-  changeFilter(filter: string): void {
-    this.currentFilter = filter;
-    this.loadData();
-  }
+      const carData = lastSevenDaysData.filter(entry => entry.vehicleType === 'Car').map(entry => entry.speed);
+      const MotorcycleData = lastSevenDaysData.filter(entry => entry.vehicleType === 'Motorcycle').map(entry => entry.speed);
+      const truckData = lastSevenDaysData.filter(entry => entry.vehicleType === 'Truck').map(entry => entry.speed);
 
-  private filterData(data: any[], interval: string): any[] {
-    const today = new Date();
-    let filterDate: Date;
+      const sumCar = this.sumVehicleType(carData);
+      const sumMotorcycle = this.sumVehicleType(MotorcycleData);
+      const sumTruck = this.sumVehicleType(truckData);
+      const sumVeh = sumCar + sumMotorcycle + sumTruck;
 
-    switch (interval) {
-      case '1day':
-        filterDate = new Date(today);
-        filterDate.setDate(today.getDate() - 1);
-        break;
-      case '7days':
-        filterDate = new Date(today);
-        filterDate.setDate(today.getDate() - 7);
-        break;
-      case '1month':
-        filterDate = new Date(today);
-        filterDate.setMonth(today.getMonth() - 1);
-        break;
-      default:
-        // Default to all data
-        return data;
-    }
-
-    return data.filter((item) => {
-      const itemDate = new Date(item.date);
-      return itemDate >= filterDate && itemDate <= today;
+      this.chartOptionsCar = this.getChartOptions('Car', sumCar, sumVeh, '#34495e');
+      this.chartOptionsMotorcycle = this.getChartOptions('Motorcycle', sumMotorcycle, sumVeh, '#3498db');
+      this.chartOptionsTruck = this.getChartOptions('Truck', sumTruck, sumVeh, '#2ecc71');
     });
   }
 
-  private generateChartOptions(data: any[]): Partial<ChartOptions> {
-    const overallAverageSpeed = this.calculateOverallAverageSpeed(data);
-    const colors = ['#FF0000']
+  private filterLastSevenDays(data: any[]): any[] {
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    return data.filter((entry) => {
+      const entryDate = new Date(entry.date);
+      return entryDate >= sevenDaysAgo && entryDate <= today;
+    });
+  }
+
+  private sumVehicleType(data: number[]): number {
+    return data.reduce((sum, value) => sum + value, 0);
+  }
+
+  private getChartOptions(title: string, value: number, total: number, color: string): Partial<ChartOptions> {
+    const colors = ['#FF5733', '#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f1c40f', '#1abc9c', '#ecf0f1', '#e67e22', '#34495e', '#d35400', '#bdc3c7'];
+    const percent = Math.round((value / total) * 100);
 
     return {
-      nonaxisseries: [overallAverageSpeed],
+      nonaxisseries: [percent],
       colors: colors,
       chart: {
         foreColor: '#999',
@@ -123,8 +110,8 @@ export class SpeedGaugeComponent implements OnInit {
       ],
       plotOptions: {
         radialBar: {
-          startAngle: -135,
-          endAngle: 135,
+          startAngle: 0,
+          endAngle: 360,
           hollow: {
             margin: 0,
             size: "70%",
@@ -161,7 +148,7 @@ export class SpeedGaugeComponent implements OnInit {
             },
             value: {
               formatter: function(val) {
-                return parseInt(val.toString(), 10).toString();
+                return parseInt(val.toString(), 10).toString() + '%';
               },
               color: "#888",
               fontSize: "36px",
@@ -187,7 +174,7 @@ export class SpeedGaugeComponent implements OnInit {
           shade: "dark",
           type: "horizontal",
           shadeIntensity: 0.5,
-          gradientToColors: ['#00FF00'],
+          gradientToColors: [color],
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,
@@ -197,14 +184,11 @@ export class SpeedGaugeComponent implements OnInit {
       stroke: {
         lineCap: "round"
       },
-      
+      labels: [title]
       
       
     };
-  }
+    
 
-  private calculateOverallAverageSpeed(data: any[]): number {
-    const totalSpeed = data.reduce((sum, item) => sum + item.speed, 0);
-    return totalSpeed / data.length;
   }
 }
