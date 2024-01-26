@@ -84,7 +84,10 @@ export class SpeedGaugeComponent implements OnInit {
   private generateChartOptions(data: any[]): Partial<ChartOptions> {
     const overallAverageSpeed = this.calculateOverallAverageSpeed(data);
     const colors = ['#FF0000']
+<<<<<<< HEAD
 
+=======
+>>>>>>> 78a67d92f85d695523aa9b535de51bae75e1a1ff
     return {
       nonaxisseries: [overallAverageSpeed],
       colors: colors,
