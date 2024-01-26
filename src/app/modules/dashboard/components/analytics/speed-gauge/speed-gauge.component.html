@@ -1,0 +1,35 @@
+    <!-- Card Header -->
+
+  <div>
+    <div class="dropdown">
+      <button class="dropbtn">Select Time Range</button>
+      <div class="dropdown-content">
+        <a (click)="changeFilter('1day')">Last 1 Day</a>
+        <a (click)="changeFilter('7days')">Last 7 Days</a>
+        <a (click)="changeFilter('1month')">Last 1 Month</a>
+      </div>
+    </div>
+
+    
+    <apx-chart style="width: 100%;"
+      [series]="chartOptions.nonaxisseries!"
+      [chart]="chartOptions.chart!"
+      [legend]="chartOptions.legend!"
+      [dataLabels]="chartOptions.dataLabels!"
+      [fill]="chartOptions.fill!"
+      [stroke]="chartOptions.stroke!"
+      [xaxis]="chartOptions.xaxis!"
+      [yaxis]="chartOptions.yaxis!"
+      [responsive]="chartOptions.responsive!"
+      [states]="chartOptions.states!"
+      [tooltip]="chartOptions.tooltip!"
+      [colors]="chartOptions.colors!"
+      [grid]="chartOptions.grid!"
+      [title]="chartOptions.title!"
+      [theme]="chartOptions.theme!"
+      [plotOptions]="chartOptions.plotOptions!"
+      [labels]="chartOptions.labels"
+      >
+    </apx-chart>
+
+  </div>

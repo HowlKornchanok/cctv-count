@@ -4,7 +4,7 @@ export class Menu {
   public static pages: MenuItem[] = [
     {
       group: '',
-      separator: true,
+      separator: false,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
