@@ -1,14 +1,21 @@
 
 
 
-<div class="flex flex-col-5 col-span-2">
-  <label for="timeRange" class="col-span-3 ml-auto text-gray-900 dark:text-night-50">Select Time Range</label>
-  <select id="timeRange" class="rounded-md p-2 text-left col-span-2 dark:text-night-50" (change)="changeFilter($event)">
-    <option value="1day">Last 1 Day</option>
-    <option value="7days">Last 7 Days</option>
-    <option value="1month">Last 1 Month</option>
-  </select>
-</div>
+<div class="flex-col rounded-lg bg-white col-span-5 dark:bg-night-700 sm:flex-row">
+  <div class="mb-4 flex items-center justify-between">
+    <div class="flex-col col-span-1 items-center">
+      <h3 class="text-md font-bold text-gray-900 dark:text-night-50">Chart</h3>
+      <span class="text-sm text-gray-400 dark:text-night-300">Stacked Column from API</span>
+    </div>
+    <div class = "flex-none rounded-md px-4 py-2.5 text-xs font-semibold text-gray-500 ">
+    <label for="timeRange" class=" flex-none rounded-md px-4 py-2.5 text-xs font-semibold text-gray-500 " >Select Time Range</label>
+      <select id="timeRange" class="rounded-md p-2 text-left col-1 text-gray-900 dark:text-night-50" (change)="changeFilter($event)">
+        <option value="1day">Last 1 Day</option>
+        <option value="7days">Last 7 Days</option>
+        <option value="1month">Last 1 Month</option>
+      </select>
+    </div>
+  </div>
 <div class="flex min-h-[400px] flex-col-2 col-span-3 ">
     <apx-chart style="width: 100%;"
       [series]="chartOptions.series!"
