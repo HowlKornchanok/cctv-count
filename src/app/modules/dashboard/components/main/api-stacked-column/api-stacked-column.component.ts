@@ -17,7 +17,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   public jsonData: any[] = [];
   public chartOptions: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
-  public currentFilter: string = '7days';
+  public currentFilter: string = '1month';
   constructor(private dataService: SumVehDataService,private themeService:ThemeService) {}
   
   
