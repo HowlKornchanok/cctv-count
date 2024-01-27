@@ -1,9 +1,9 @@
 
 
 
-<div class="flex  flex-col-2 col-span-2">
-  <label for="timeRange" class=" col-span-1 text-gray-900 dark:text-night-50" >Select Time Range</label>
-  <select id="timeRange" class="rounded-md p-2 text-left col-1 text-gray-900 dark:text-night-50" (change)="changeFilter($event)">
+<div class="flex flex-col-5 col-span-2">
+  <label for="timeRange" class="col-span-3 ml-auto text-gray-900 dark:text-night-50">Select Time Range</label>
+  <select id="timeRange" class="rounded-md p-2 text-left col-span-2 dark:text-night-50" (change)="changeFilter($event)">
     <option value="1day">Last 1 Day</option>
     <option value="7days">Last 7 Days</option>
     <option value="1month">Last 1 Month</option>

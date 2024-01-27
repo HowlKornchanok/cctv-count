@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit, effect } from '@angular/core';
+import { Component, OnDestroy, OnInit ,effect } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { SumVehDataService } from 'src/app/core/services/sum-veh-data.service';
-
+import { ThemeService } from 'src/app/core/services/theme.service';
 @Component({
     selector: '[api-stacked-column]',
     templateUrl: './api-stacked-column.component.html',
@@ -18,13 +18,13 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   public chartOptions: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
   public currentFilter: string = '7days';
-  constructor(private dataService: SumVehDataService) {}
+  constructor(private dataService: SumVehDataService,private themeService:ThemeService) {}
   
   
   ngOnInit(): void {
     this.loadData();
   }
-
+  
   ngOnDestroy(): void {
     // Unsubscribe from the data service to prevent memory leaks
     if (this.dataServiceSubscription) {
@@ -84,22 +84,26 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   private generateChartOptions(data: any[]): Partial<ChartOptions> {
     const colors = ['#FF0000'];
     const categories = data.map(entry => entry.date);
+    const isLast1Day = this.currentFilter === '1day'
+    
     const seriesData = [
       {
         name: 'Truck',
         data: data.map(entry => entry.sumTruck),
-        type: 'bar'
+        type: 'bar',
+        
       },
       {
         name: 'Car',
         data: data.map(entry => entry.sumCar),
         color: '#009900',
-        type: 'bar'
+        type: 'bar',
+
       },
       {
         name: 'Motorbike',
         data: data.map(entry => entry.sumMotorcycle),
-        type: 'bar'
+        type: 'bar',
       },
       {
         name: 'Bus',
@@ -113,15 +117,16 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         color: '#FF0000'
       }
     ];
-
+    
     return {
       series: seriesData,
       chart: {
+        group: 'group',
         foreColor: '#999',
         type: 'line',
         height: '100%',
         width: '100%',
-        stacked: true,
+        stacked: !isLast1Day,
         toolbar: {
           show: true
         },
@@ -148,16 +153,16 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
       ],
       plotOptions: {
         bar: {
-          horizontal: false
-        }
+          horizontal: false,
+          
+        },
       },
       xaxis: {
         type: 'category',
         categories: categories
       },
       legend: {
-        position: 'right',
-        offsetY: 40,
+        position: 'bottom',
         onItemClick: {
           toggleDataSeries: true
         }
@@ -166,5 +171,10 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         opacity: 0.9
       }
     };
+
+    
   }
+  
+
+
 }

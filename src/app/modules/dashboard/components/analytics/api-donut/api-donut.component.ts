@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnDestroy, OnInit, effect } from '@angular/core';
 import { Subscription } from 'rxjs';

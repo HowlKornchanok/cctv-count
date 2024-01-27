@@ -2,14 +2,13 @@
 import { Component, OnInit, effect,OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from 'src/app/core/services/data.service';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
   selector: '[history-table]',
   standalone: true,
   templateUrl: './history-table.component.html',
-  imports: [AngularSvgIconModule, NgApexchartsModule,CommonModule, ],
+  imports: [ NgApexchartsModule,CommonModule, ],
   styleUrls: ['./history-table.component.scss'],
   providers: [DataService],
 })

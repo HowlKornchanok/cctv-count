@@ -1,16 +1,12 @@
-    <!-- Card Header -->
-
-  <div>
-    <div class="dropdown">
-      <button class="dropbtn">Select Time Range</button>
-      <div class="dropdown-content">
-        <a (click)="changeFilter('1day')">Last 1 Day</a>
-        <a (click)="changeFilter('7days')">Last 7 Days</a>
-        <a (click)="changeFilter('1month')">Last 1 Month</a>
-      </div>
-    </div>
-
-    
+<div class="flex  flex-col-3 col-span-3">
+  <label for="timeRange" class=" col-span-1 text-sm text-gray-900 dark:text-night-50" >Select Time Range</label>
+  <select id="timeRange" class="rounded-md text-sm p-2 text-left col-1 text-gray-900 dark:text-night-50" style="width: 50%;" (change)="changeFilter($event)">
+    <option value="1day">Last 1 Day</option>
+    <option value="7days">Last 7 Days</option>
+    <option value="1month">Last 1 Month</option>
+  </select>
+</div>
+<div class="flex flex-col-2 col-span-3 ">
     <apx-chart style="width: 100%;"
       [series]="chartOptions.nonaxisseries!"
       [chart]="chartOptions.chart!"
@@ -28,8 +24,7 @@
       [title]="chartOptions.title!"
       [theme]="chartOptions.theme!"
       [plotOptions]="chartOptions.plotOptions!"
-      [labels]="chartOptions.labels"
+      [labels]="chartOptions.labels!"
       >
     </apx-chart>
-
-  </div>
+    </div>

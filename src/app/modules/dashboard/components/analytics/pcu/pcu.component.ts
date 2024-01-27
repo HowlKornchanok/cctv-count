@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/core/services/theme.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';

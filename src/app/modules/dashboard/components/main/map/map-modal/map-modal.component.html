@@ -1,11 +1,22 @@
+<!-- map-modal.component.html -->
 
 <div class="modal-overlay" (click)="closeModal()"></div>
-<div class="modal-container">
-  <div class="modal-header">
+<div class="modal-container bg-white dark:bg-night-200 rounded-lg">
+  <div class="modal-header bg-white dark:bg-night-200">
     <button class="close-button" (click)="closeModal()">×</button>
   </div>
-  <div class="modal-content">
+  <div class="modal-content bg-white dark:bg-night-200">
 
     <p>This is map content.</p>
+
+    <!-- Display pin coordinates -->
+    <div *ngIf="getPinCoordinatesForCamera('Camera 1') !== null">
+      <p>Pin Coordinates: {{ getPinCoordinatesForCamera('Camera 1') | json }}</p>
+    </div>
+
+    <!-- Display camera information -->
+    <div *ngFor="let camera of cameras">
+      <p>{{ camera.name }} - Location: {{ camera.location }}</p>
+    </div>
   </div>
 </div>

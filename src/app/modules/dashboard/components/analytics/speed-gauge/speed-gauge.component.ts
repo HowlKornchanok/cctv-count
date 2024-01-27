@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from 'src/app/core/services/data.service';
 import { CommonModule } from '@angular/common';
@@ -48,8 +47,8 @@ export class SpeedGaugeComponent implements OnInit {
     );
   }
 
-  changeFilter(filter: string): void {
-    this.currentFilter = filter;
+  changeFilter(event: any): void {
+    this.currentFilter = event.target.value;
     this.loadData();
   }
 
@@ -82,12 +81,13 @@ export class SpeedGaugeComponent implements OnInit {
   }
 
   private generateChartOptions(data: any[]): Partial<ChartOptions> {
-    const overallAverageSpeed = this.calculateOverallAverageSpeed(data);
+    const overallAverageSpeed = Math.round(this.calculateOverallAverageSpeed(data));
     const colors = ['#FF0000']
     return {
       nonaxisseries: [overallAverageSpeed],
       colors: colors,
       chart: {
+
         foreColor: '#999',
         type: "radialBar",
         height: 300,
@@ -160,7 +160,7 @@ export class SpeedGaugeComponent implements OnInit {
             },
             value: {
               formatter: function(val) {
-                return parseInt(val.toString(), 10).toString();
+                return parseInt(val.toString(), 10).toString() + 'KM/Hr';
               },
               color: "#888",
               fontSize: "36px",
@@ -196,6 +196,7 @@ export class SpeedGaugeComponent implements OnInit {
       stroke: {
         lineCap: "round"
       },
+      labels: ['AverageSpeed']
       
       
       

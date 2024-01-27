@@ -1,17 +1,15 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/core/services/theme.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { DataService } from 'src/app/core/services/data.service';
 
 
 @Component({
   selector: '[donut-veh]',
   standalone: true,
   templateUrl: './donut-veh.component.html',
-  imports: [AngularSvgIconModule, NgApexchartsModule],
+  imports: [ NgApexchartsModule],
   styles: []
 })
 export class DonutVehComponent implements OnInit, OnDestroy {

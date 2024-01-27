@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import { OSM } from 'ol/source';
 import Overlay from 'ol/Overlay';
 import { fromLonLat } from 'ol/proj';
-import {ZoomToExtent, defaults as defaultControls} from 'ol/control.js';
+import { defaults as defaultControls} from 'ol/control.js';
 import { MapModalComponent } from './map-modal/map-modal.component';
 import { ZoomToCentralPin } from './zoomto-central-pin/zoomto-central-pin.component';
+import { ModalService } from 'src/app/core/services/modal.service';
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -20,11 +21,14 @@ export class MapComponent implements OnInit {
   map!: Map;
   public showModal: boolean = false;
   public jsonData: any[] = [];
+  @ViewChild(MapModalComponent) mapModalComponent!: MapModalComponent;
 
+
+  constructor(private modalDataService: ModalService) {}
 
   ngOnInit(): void {
 
-    
+
     this.map = new Map({
       controls: defaultControls().extend([
         new ZoomToCentralPin()
@@ -80,7 +84,7 @@ export class MapComponent implements OnInit {
       this.zoomToPin(coordinates);
     });
     buttonElement.addEventListener('click', () => {
-      this.openMapModal();
+      this.openMapModal(coordinates);
     });
     
 
@@ -112,20 +116,7 @@ export class MapComponent implements OnInit {
     return buttonElement;
   }
 
-  
 
-  createCenterButton(label: string): HTMLElement {
-    const CenterbuttonElement = document.createElement('button');
-
-    CenterbuttonElement.style.width = '100px'; 
-    CenterbuttonElement.style.height = '30px';
-    
-    CenterbuttonElement.className = 'center-button';
-    CenterbuttonElement.innerText = 'Center';
-    
-
-    return CenterbuttonElement;
-  }
   
 
   zoomToPin(coordinates: number[]): void {
@@ -137,8 +128,12 @@ export class MapComponent implements OnInit {
   }
 
 
-  openMapModal() {
+  openMapModal(pinCoordinates: number[]): void {
+    
+    console.log('Pin Coordinates:', pinCoordinates);
     this.showModal = true;
+    this.modalDataService.setPinCoordinates(pinCoordinates);  
+
   }
 
   closeModal() {

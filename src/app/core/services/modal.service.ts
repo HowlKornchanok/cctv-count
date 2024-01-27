@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
-  private showModalSubject = new Subject<boolean>();
-  showModal$ = this.showModalSubject.asObservable();
+  private pinCoordinatesSubject = new BehaviorSubject<number[]>([]);
+  pinCoordinates$ = this.pinCoordinatesSubject.asObservable();
 
-  openModal(): void {
-    this.showModalSubject.next(true);
-  }
-
-  closeModal(): void {
-    this.showModalSubject.next(false);
+  setPinCoordinates(coordinates: number[]): void {
+    this.pinCoordinatesSubject.next(coordinates);
   }
 }
