@@ -42,7 +42,6 @@
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js",
-              "node_modules/preline/preline.js"
             ],
             "allowedCommonJsDependencies": [
               "apexcharts"
