@@ -20,7 +20,7 @@ export class HistoryTableComponent implements OnInit, OnDestroy {
   totalPages: number = 10;
 
   constructor(private dataService: DataService) {}
-  selectedFilter: string = '1days';
+  selectedFilter: string = '1day';
     
   ngOnInit(): void {
     this.loadData();
@@ -32,7 +32,7 @@ export class HistoryTableComponent implements OnInit, OnDestroy {
   }
   prevPage(): void {
     if (this.currentPage > 1) {
-      this.currentPage--;
+      this.currentPage--;1
     }
   }
   
