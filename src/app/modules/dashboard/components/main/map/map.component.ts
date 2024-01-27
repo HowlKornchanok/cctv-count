@@ -6,35 +6,28 @@ import TileLayer from 'ol/layer/Tile';
 import { OSM } from 'ol/source';
 import Overlay from 'ol/Overlay';
 import { fromLonLat } from 'ol/proj';
-import * as olProj from 'ol/proj';
 import {ZoomToExtent, defaults as defaultControls} from 'ol/control.js';
-import { Control } from 'ol/control.js'
-import { DataService } from 'src/app/core/services/data.service';
-
+import { MapModalComponent } from './map-modal/map-modal.component';
+import { ZoomToCentralPin } from './zoomto-central-pin/zoomto-central-pin.component';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,MapModalComponent],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
   map!: Map;
-
+  public showModal: boolean = false;
   public jsonData: any[] = [];
-
 
 
   ngOnInit(): void {
 
-
+    
     this.map = new Map({
       controls: defaultControls().extend([
-        new ZoomToExtent({
-          extent: [
-            99.6239,7.5645,99.6239,7.5645
-          ],
-        }),
+        new ZoomToCentralPin()
       ]),
       
     
@@ -87,8 +80,9 @@ export class MapComponent implements OnInit {
     pinElement.addEventListener('click', () => {
       this.zoomToPin(coordinates);
     });
-
-
+    buttonElement.addEventListener('click', () => {
+      this.openMapModal();
+    });
     
 
     this.map.addOverlay(pinOverlay);
@@ -118,6 +112,8 @@ export class MapComponent implements OnInit {
 
     return buttonElement;
   }
+
+  
 
   createCenterButton(label: string): HTMLElement {
     const CenterbuttonElement = document.createElement('button');
@@ -151,5 +147,12 @@ export class MapComponent implements OnInit {
   }
 
 
+  openMapModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
 
 }
