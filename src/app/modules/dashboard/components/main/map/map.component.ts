@@ -44,7 +44,7 @@ export class MapComponent implements OnInit {
       target: 'map',
       view: new View({
         center: fromLonLat([99.6239, 7.5645]),
-        zoom: 15,
+        zoom: 14,
         maxZoom: 20,
       }),
     });
@@ -64,6 +64,7 @@ export class MapComponent implements OnInit {
   addPin(coordinates: number[], label: string): void {
     const pinElement = this.createPinElement(label);
     const buttonElement = this.createPinButton(label);
+    const pinText = this.createPinText(label);
 
     const pinOverlay = new Overlay({
       position: fromLonLat(coordinates),
@@ -79,8 +80,19 @@ export class MapComponent implements OnInit {
       stopEvent: false,
     });
 
+    const TextOverlay = new Overlay({
+      position: fromLonLat(coordinates),
+      positioning: 'center-center',
+      element: pinText,
+      stopEvent: false,
+    });
+
 
     pinElement.addEventListener('click', () => {
+      this.zoomToPin(coordinates);
+    });
+
+    pinText.addEventListener('click', () => {
       this.zoomToPin(coordinates);
     });
     buttonElement.addEventListener('click', () => {
@@ -89,33 +101,56 @@ export class MapComponent implements OnInit {
     
 
     this.map.addOverlay(pinOverlay);
+    this.map.addOverlay(TextOverlay);
     this.map.addOverlay(buttonOverlay);
 
+  }
+  createPinText(label: string): HTMLElement {
+    const pinText = document.createElement('div');
+    pinText.className = 'pin-label';
+    pinText.innerHTML = `<div class="pin-label" style="font-weight: bold;">${label}</div>`;
+    pinText.style.marginBottom ='40px';
+    return pinText;
   }
 
   createPinElement(label: string): HTMLElement {
     const pinElement = document.createElement('div');
 
     pinElement.className = 'pin';
-    pinElement.innerHTML = `<img src="/assets/icons/pinicon.png" class="pin-icon" /><div class="pin-label">${label}</div>`;
+    pinElement.innerHTML = '<img src="/assets/icons/pinicon.png" class="pin-icon" />'
+    const pinText = document.createElement('div');
+
+    pinText.style.position = 'center';
     
+    pinElement.appendChild(pinText);
 
     return pinElement;
   }
   createPinButton(label: string): HTMLElement {
+    const container = document.createElement('div');
+    container.className = 'ol-zoom-to-central-pin ol-unselectable ol-control';
+    container.style.width = '80px';
+    container.style.right = '-40px';
+    container.style.top = '20px';
+    container.style.position = 'center';
+  
     const buttonElement = document.createElement('button');
-
-    buttonElement.style.width = '100px'; 
-    buttonElement.style.height = '30px';
-    buttonElement.style.marginTop = '100px';
-    
     buttonElement.className = 'pin-button';
-    buttonElement.innerText = 'Open Map';
-    
+    buttonElement.style.width = '80px';
+    buttonElement.style.height = '40px';
+  
 
-    return buttonElement;
+
+    const TextElement = document.createElement('text');
+    TextElement.style.position = 'center';
+    TextElement.innerText = 'Open Modal';
+    buttonElement.style.lineHeight = '1';
+
+    buttonElement.appendChild(TextElement);
+    container.appendChild(buttonElement);
+  
+    return container;
   }
-
 
   
 

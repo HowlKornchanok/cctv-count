@@ -31,7 +31,7 @@ export class ZoomToCentralPin extends Control {
     const map = this.getMap() as Map;
     const view = map.getView() as View;
     const centralPinCoordinates = fromLonLat([99.6239, 7.5645]);
-    const zoomLevel = 15;
+    const zoomLevel = 14;
     view.animate({
       center: centralPinCoordinates,
       zoom: zoomLevel,

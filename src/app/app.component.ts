@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { ThemeService } from './core/services/theme.service';
 import { RouterOutlet } from '@angular/router';
 import { NgClass } from '@angular/common';
-import {
-  Router,
-  RouterLink,
-  Event,
-  NavigationEnd,
-} from '@angular/router';
+import {Router,RouterLink,} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -21,14 +16,7 @@ export class AppComponent {
 
   constructor(public themeService: ThemeService,private router:Router) {}
   ngOnInit() {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        setTimeout(() => {
-          // @ts-ignore
-          HSStaticMethods.autoInit();
-        }, 100);
-      }
-    });
+    
   }
 
   

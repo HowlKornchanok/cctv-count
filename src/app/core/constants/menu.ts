@@ -19,16 +19,6 @@ export class Menu {
       ],
     },
     
-    {
-      group: '',
-      separator: false,
-      items: [
-        {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Settings',
-          route: '/settings',
-        }
-      ],
-    },
+
   ];
 }
