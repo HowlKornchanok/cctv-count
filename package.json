@@ -45,6 +45,7 @@
     "@types/ol": "^7.0.0",
     "angular-svg-icon": "^13.0.0",
     "apexcharts": "^3.45.2",
+    "font-awesome": "^4.7.0",
     "highcharts": "^11.3.0",
     "highcharts-ng": "^1.2.1",
     "ng-apexcharts": "^1.8.0",

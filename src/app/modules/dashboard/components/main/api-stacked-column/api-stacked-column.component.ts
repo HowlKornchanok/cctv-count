@@ -171,6 +171,13 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         opacity: 0.9
       }
     };
+    effect(() => {
+
+      this.chartOptions.tooltip = {
+        theme: this.themeService.themeChanged(),
+      };
+      
+    });
 
     
   }

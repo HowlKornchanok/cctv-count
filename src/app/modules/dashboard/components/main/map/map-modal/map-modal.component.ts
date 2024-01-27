@@ -47,4 +47,10 @@ export class MapModalComponent implements OnInit,OnDestroy {
     const camera = this.cameras.find(c => c.name === cameraName);
     return camera ? this.pinCoordinates : null;
   }
+  isPlayerLarger: boolean[] = [false, false, false, false];
+
+  togglePlayerSize(index: number): void {
+    this.isPlayerLarger[index] = !this.isPlayerLarger[index];
+    
+  }
 }

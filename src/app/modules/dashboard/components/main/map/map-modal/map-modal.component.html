@@ -1,22 +1,53 @@
-<!-- map-modal.component.html -->
-
 <div class="modal-overlay" (click)="closeModal()"></div>
-<div class="modal-container bg-white dark:bg-night-200 rounded-lg">
-  <div class="modal-header bg-white dark:bg-night-200">
+<div class="modal-container rounded-lg">
+  <div class="modal-header">
     <button class="close-button" (click)="closeModal()">×</button>
   </div>
-  <div class="modal-content bg-white dark:bg-night-200">
 
-    <p>This is map content.</p>
-
-    <!-- Display pin coordinates -->
-    <div *ngIf="getPinCoordinatesForCamera('Camera 1') !== null">
-      <p>Pin Coordinates: {{ getPinCoordinatesForCamera('Camera 1') | json }}</p>
+  <div class="modal-content grid grid-cols-4 gap-4">
+    <!-- Live Camera Player 1 -->
+    <div class="relative h-48 bg-gray-200 mb-4" (click)="togglePlayerSize(0)" [ngClass]="{ 'larger': isPlayerLarger[0] }">
+      <iframe class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+      <div class="absolute top-0 right-0 p-2">
+        <i class="fa fa-search-plus" (click)="togglePlayerSize(0)"></i>
+      </div>
+      <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[0].name }}</p>
     </div>
 
-    <!-- Display camera information -->
-    <div *ngFor="let camera of cameras">
-      <p>{{ camera.name }} - Location: {{ camera.location }}</p>
+    <div class="col-span-2"></div>
+
+    <div class="relative h-48 bg-gray-200 mb-4" (click)="togglePlayerSize(1)" [ngClass]="{ 'larger': isPlayerLarger[1] }">
+      <iframe class="w-full h-full" src="your-camera-stream-url-2" frameborder="0" allowfullscreen></iframe>
+      <div class="absolute top-0 right-0 p-2">
+        <i class="fa fa-search-plus" (click)="togglePlayerSize(1)"></i>
+      </div>
+      <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[1].name }}</p>
+    </div>
+  </div>
+
+  <div class="min-h-[20%] col-span-4 flex justify-center items-center">
+    <div *ngIf="getPinCoordinatesForCamera('Camera 1') !== null">
+      <p class="w-2/10 bg-white p-2 rounded-lg  text-bold">Pin Coordinates: {{ getPinCoordinatesForCamera('Camera 1') | json }}</p>
+    </div>
+  </div>
+
+  <div class="modal-content grid grid-cols-4 gap-4">
+    <div class="relative h-48 bg-gray-200" (click)="togglePlayerSize(2)" [ngClass]="{ 'larger': isPlayerLarger[2] }">
+      <iframe class="w-full h-full" src="your-camera-stream-url-3" frameborder="0" allowfullscreen></iframe>
+      <div class="absolute top-0 right-0 p-2">
+        <i class="fa fa-search-plus" (click)="togglePlayerSize(2)"></i>
+      </div>
+      <p class="absolute top-0 left-0 p-2">{{ cameras[2].name }}</p>
+    </div>
+
+    <div class="col-span-2"></div>
+
+    <div class="relative h-48 bg-gray-200" (click)="togglePlayerSize(3)" [ngClass]="{ 'larger': isPlayerLarger[3] }">
+      <iframe class="w-full h-full" src="your-camera-stream-url-4" frameborder="0" allowfullscreen></iframe>
+      <div class="absolute top-0 right-0 p-2">
+        <i class="fa fa-search-plus" (click)="togglePlayerSize(3)"></i>
+      </div>
+      <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[3].name }}</p>
     </div>
   </div>
 </div>
