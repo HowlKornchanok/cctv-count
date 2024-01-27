@@ -76,7 +76,6 @@ export class MapComponent implements OnInit {
     });
 
 
-    // Add click event to the pin overlay
     pinElement.addEventListener('click', () => {
       this.zoomToPin(coordinates);
     });
@@ -133,15 +132,6 @@ export class MapComponent implements OnInit {
     this.map.getView().animate({
       center: fromLonLat(coordinates),
       zoom: 18,
-      duration: 1000,
-    });
-  }
-
-  // Function to go back to the central pin
-  goToCentralPin(): void {
-    this.map.getView().animate({
-      center: fromLonLat([99.6239, 7.5645]),
-      zoom: 15,
       duration: 1000,
     });
   }
