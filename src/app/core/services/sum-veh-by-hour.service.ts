@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SumVehDataService {
+export class SumVehByHourService {
 
-  private apiUrl = 'assets/output.json';
+  private apiUrl = 'assets/output_new.json';
 
   constructor(private http: HttpClient) { }
 

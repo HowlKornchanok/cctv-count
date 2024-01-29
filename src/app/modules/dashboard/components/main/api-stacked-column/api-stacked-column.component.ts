@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { SumVehDataService } from 'src/app/core/services/sum-veh-data.service';
+import { SumVehByHourService } from 'src/app/core/services/sum-veh-by-hour.service';
 import { ThemeService } from 'src/app/core/services/theme.service';
 @Component({
     selector: '[api-stacked-column]',
@@ -10,15 +11,25 @@ import { ThemeService } from 'src/app/core/services/theme.service';
     standalone: true,
     imports: [NgApexchartsModule],
     styles: [],
-    providers: [SumVehDataService]
+    providers: [SumVehDataService , SumVehByHourService]
 })
 
 export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   public jsonData: any[] = [];
   public chartOptions: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
-  public currentFilter: string = '1month';
-  constructor(private dataService: SumVehDataService,private themeService:ThemeService) {}
+  public currentFilter: string = '1day';
+  constructor(
+    private dataService: SumVehDataService,
+    private dataServiceHour: SumVehByHourService,
+    private themeService : ThemeService) {
+      effect(() => {
+        this.chartOptions.tooltip = {
+          theme: this.themeService.themeChanged(),
+        };
+        
+      });
+    }
   
   
   ngOnInit(): void {
@@ -26,22 +37,36 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    // Unsubscribe from the data service to prevent memory leaks
+
     if (this.dataServiceSubscription) {
       this.dataServiceSubscription.unsubscribe();
     }
   }
 
   private loadData(): void {
-    this.dataService.getData().subscribe(
-      (data) => {
-        this.jsonData = this.filterData(data, this.currentFilter);
-        this.chartOptions = this.generateChartOptions(this.jsonData);
-      },
-      (error) => {
-        console.error('Error fetching data:', error);
-      }
-    );
+    if (this.currentFilter === '1day') {
+      // Use the hourly service for 1 day filter
+      this.dataServiceHour.getData().subscribe(
+        (data) => {
+          this.jsonData = this.filterData(data, this.currentFilter);
+          this.chartOptions = this.generateChartOptions(this.jsonData);
+        },
+        (error) => {
+          console.error('Error fetching data for 1 day:', error);
+        }
+      );
+    } else {
+      // Use the daily service for other filters
+      this.dataService.getData().subscribe(
+        (data) => {
+          this.jsonData = this.filterData(data, this.currentFilter);
+          this.chartOptions = this.generateChartOptions(this.jsonData);
+        },
+        (error) => {
+          console.error('Error fetching data:', error);
+        }
+      );
+    }
   }
 
   changeFilter(event: any): void {
@@ -71,7 +96,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         filterDate.setFullYear(today.getFullYear() - 1);
         break;
       default:
-        // Default to all data
+
         return data;
     }
 
@@ -82,9 +107,16 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   }
 
   private generateChartOptions(data: any[]): Partial<ChartOptions> {
-    const colors = ['#FF0000'];
-    const categories = data.map(entry => entry.date);
+    
     const isLast1Day = this.currentFilter === '1day'
+    let categories;
+    if (isLast1Day) {
+      // Display time instead of date for 1 day filter
+      categories = data.map(entry => entry.time);
+    } else {
+      // Display date for other filters
+      categories = data.map(entry => entry.date);
+    }
     
     const seriesData = [
       {
@@ -121,12 +153,11 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
     return {
       series: seriesData,
       chart: {
-        group: 'group',
         foreColor: '#999',
         type: 'line',
         height: '100%',
         width: '100%',
-        stacked: !isLast1Day,
+        stacked: true,
         toolbar: {
           show: true
         },
@@ -171,13 +202,6 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         opacity: 0.9
       }
     };
-    effect(() => {
-
-      this.chartOptions.tooltip = {
-        theme: this.themeService.themeChanged(),
-      };
-      
-    });
 
     
   }

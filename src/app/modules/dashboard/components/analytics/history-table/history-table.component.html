@@ -30,6 +30,7 @@
       <thead class="text-xs uppercase text-gray-400 dark:text-night-300">
         <tr>
           <th class="py-3 text-left">Date</th>
+          <th class="py-3 text-left">Time</th>
           <th class="py-3 text-right">Speed</th>
            <th class="py-3 text-right">Vehicle Type</th>
           <!-- Add more columns as needed based on your data structure -->
@@ -37,7 +38,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of jsonData.slice((currentPage-1)*itemsPerPage, currentPage*itemsPerPage)" class="border-b border-dashed border-gray-200 hover:bg-gray-100 dark:border-night-500 dark:hover:bg-night-600">
-          <td class =" text-gray-900 dark:text-night-50">{{ item.date | date:'short' }}</td>
+          <td class =" text-gray-900 dark:text-night-50">{{ item.date}}</td>
+          <td class =" text-gray-900 dark:text-night-50">{{ item.time}}</td>
           <td class="py-3 text-right font-bold text-gray-900 dark:text-night-50">{{ item.speed }}</td>
           <td class="py-3 text-right font-bold text-gray-900 dark:text-night-50">{{ item.vehicleType }}</td>
           <!-- Add more columns as needed based on your data structure -->

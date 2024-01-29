@@ -28,7 +28,6 @@ export class SpeedGaugeComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe from the data service to prevent memory leaks
     if (this.dataServiceSubscription) {
       this.dataServiceSubscription.unsubscribe();
       

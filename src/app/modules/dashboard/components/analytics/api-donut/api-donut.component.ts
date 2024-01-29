@@ -5,23 +5,25 @@ import { Subscription } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { DataService } from 'src/app/core/services/data.service';
-
+import { ThemeService } from 'src/app/core/services/theme.service';
 
 @Component({
   selector: '[api-donut]',
   standalone: true,
-  imports: [CommonModule,NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule],
   templateUrl: './api-donut.component.html',
   styleUrl: './api-donut.component.scss',
   providers: [DataService],
 })
-export class APIDonutComponent implements OnInit,OnDestroy{
+export class APIDonutComponent implements OnInit, OnDestroy {
   public chartOptionsCar: Partial<ChartOptions> = {};
   public chartOptionsMotorcycle: Partial<ChartOptions> = {};
-  public chartOptionsTruck: Partial<ChartOptions>  = {};
+  public chartOptionsTruck: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
+  private currentFilter: string = 'all'; // Default filter value
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService , private themeService : ThemeService ) {}
+
   ngOnInit(): void {
     this.loadData();
   }
@@ -30,17 +32,20 @@ export class APIDonutComponent implements OnInit,OnDestroy{
     // Unsubscribe from the data service to prevent memory leaks
     if (this.dataServiceSubscription) {
       this.dataServiceSubscription.unsubscribe();
-      
     }
+  }
+
+  changeFilter(event: any): void {
+    this.currentFilter = event.target.value;
+    this.loadData();
   }
 
   private loadData(): void {
     this.dataService.getData().subscribe((vehicleData) => {
-      const lastSevenDaysData = this.filterLastSevenDays(vehicleData);
-
-      const carData = lastSevenDaysData.filter(entry => entry.vehicleType === 'Car').map(entry => entry.speed);
-      const MotorcycleData = lastSevenDaysData.filter(entry => entry.vehicleType === 'Motorcycle').map(entry => entry.speed);
-      const truckData = lastSevenDaysData.filter(entry => entry.vehicleType === 'Truck').map(entry => entry.speed);
+      const filteredData = this.filterData(vehicleData, this.currentFilter);
+      const carData = filteredData.filter((entry) => entry.vehicleType === 'Car').map((entry) => entry.speed);
+      const MotorcycleData = filteredData.filter((entry) => entry.vehicleType === 'Motorcycle').map((entry) => entry.speed);
+      const truckData = filteredData.filter((entry) => entry.vehicleType === 'Truck').map((entry) => entry.speed);
 
       const sumCar = this.sumVehicleType(carData);
       const sumMotorcycle = this.sumVehicleType(MotorcycleData);
@@ -50,6 +55,34 @@ export class APIDonutComponent implements OnInit,OnDestroy{
       this.chartOptionsCar = this.getChartOptions('Car', sumCar, sumVeh, '#34495e');
       this.chartOptionsMotorcycle = this.getChartOptions('Motorcycle', sumMotorcycle, sumVeh, '#3498db');
       this.chartOptionsTruck = this.getChartOptions('Truck', sumTruck, sumVeh, '#2ecc71');
+    });
+  }
+
+  private filterData(data: any[], interval: string): any[] {
+    const today = new Date();
+    let filterDate: Date;
+
+    switch (interval) {
+      case '1day':
+        filterDate = new Date(today);
+        filterDate.setDate(today.getDate() - 1);
+        break;
+      case '7days':
+        filterDate = new Date(today);
+        filterDate.setDate(today.getDate() - 7);
+        break;
+      case '1month':
+        filterDate = new Date(today);
+        filterDate.setMonth(today.getMonth() - 1);
+        break;
+      default:
+        // Default to all data
+        return data;
+    }
+
+    return data.filter((item) => {
+      const itemDate = new Date(item.date);
+      return itemDate >= filterDate && itemDate <= today;
     });
   }
 

@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { AnalyticsComponent} from './pages/analytics/analytics.component';
 import { MainComponent } from './pages/main/main.component';
-import { AuthComponent } from '../auth/auth.component';
 import { HistoryComponent } from './pages/history/history.component';
 
 

@@ -3,129 +3,27 @@ import { ThemeService } from 'src/app/core/services/theme.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-
+import { PCUPhaseDataService } from 'src/app/core/services/pcu-phase-data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[PCUchart]',
   standalone: true,
   templateUrl: './PCU.component.html',
   imports: [AngularSvgIconModule, NgApexchartsModule],
-  styles: []
+  styles: [],
+  providers: [PCUPhaseDataService],
 })
 export class PCUComponent implements OnInit, OnDestroy {
+  private dataServiceSubscription: Subscription | undefined;
+  public currentFilter: string = '1day';
+  public chartOptions: Partial<ChartOptions> = {};
 
-  public chartOptions: Partial<ChartOptions>;
-
-
-  constructor(private themeService: ThemeService) {
-
-    const phase1 = [33, 55, 32, 58, 41, 34, 23, 34, 55, 32, 58, 41];
-    const phase2 = [95, 83, 79, 97, 72, 66, 95, 95, 83, 79, 97, 72];
-    const phase3 = [122, 144, 112, 113, 126, 115, 112, 122, 121, 112, 113, 126];
-    const arrayLength = phase1.length;
-    const averageData = Array.from({ length: arrayLength }, (_, index) => {
-      const sum = phase1[index] + phase2[index] + phase3[index];
-      return Math.round(sum / 3);
-    });
-
-    this.chartOptions = {
-      series: [
-        {
-          name: "Phase I",
-          data: phase1,
-          type: 'bar'
-        },
-        {
-          name: "Phase II",
-          data: phase2,
-          type: 'bar'
-        },
-        {
-          name: "Phase III",
-          data: phase3,
-          type: 'bar'
-
-        },
-        {
-          name: "Average",
-          data: averageData,
-          type: 'line'
-        }
-        
-
-      ],
-      chart: {
-        foreColor: '#999',
-        type: "line",
-        height: '100%',
-        width: '100%',
-        stacked: false,
-        toolbar: {
-          show: true
-        },
-        zoom: {
-          enabled: true
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        enabledOnSeries: [4]
-      },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            legend: {
-              show: false,
-              position: "bottom",
-              offsetX: -10,
-              offsetY: 0
-            }
-          }
-        }
-      ],
-      plotOptions: {
-        bar: {
-          horizontal: false
-        }
-      },
-      xaxis: {
-        type: "category",
-        categories: [
-          "01/2011",
-          "02/2011",
-          "03/2011",
-          "04/2011",
-          "05/2011",
-          "06/2011",
-          "07/2011",
-          "08/2011",
-          "09/2011",
-          "10/2011",
-          "11/2011",
-          "12/2011",
-        ]
-      },
-      legend: {
-        
-        position: "bottom",
-        
-        onItemClick: {
-          toggleDataSeries: true
-      },
-      },
-      
-     
-      fill: {
-        opacity: 0.9
-      },
-
-      
-    };
-  
-
+  constructor(
+    private themeService: ThemeService,
+    private pcuPhasedataService: PCUPhaseDataService
+  ) {
     effect(() => {
-      /** change chart theme */
       this.chartOptions.tooltip = {
         theme: this.themeService.themeChanged(),
       };
@@ -133,7 +31,156 @@ export class PCUComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    if (this.dataServiceSubscription) {
+      this.dataServiceSubscription.unsubscribe();
+    }
+  }
+
+  private loadData(): void {
+    this.dataServiceSubscription = this.pcuPhasedataService.getData().subscribe(
+      (data) => {
+        const filteredData = this.filterData(data, this.currentFilter);
+        this.chartOptions = this.generateChartOptions(filteredData);
+      },
+      (error) => {
+        console.error('Error fetching PCU data:', error);
+      }
+    );
+  }
+
+  private filterData(data: any[], interval: string): any[] {
+    const today = new Date();
+    const isLast1Day = this.currentFilter === '1day';
+    let filterDate: Date;
+    let categories;
+
+    if (isLast1Day) {
+      categories = data.map((entry) => entry.time);
+    } else {
+      categories = data.map((entry) => entry.date);
+    }
+
+    switch (interval) {
+      case '1day':
+        filterDate = new Date(today);
+        filterDate.setDate(today.getDate() - 1);
+        break;
+      case '7days':
+        filterDate = new Date(today);
+        filterDate.setDate(today.getDate() - 7);
+        break;
+      case '1month':
+        filterDate = new Date(today);
+        filterDate.setMonth(today.getMonth() - 1);
+        break;
+      case '1year':
+        filterDate = new Date(today);
+        filterDate.setFullYear(today.getFullYear() - 1);
+        break;
+      default:
+        return data;
+    }
+
+    return data.filter((entry) => {
+      const entryDate = new Date(entry.date);
+      return entryDate >= filterDate && entryDate <= today;
+    });
+  }
+  changeFilter(event: any): void {
+    this.currentFilter = event.target.value;
+    this.loadData();
+  }
+  private generateChartOptions(data: any[]): Partial<ChartOptions> {
+    const isLast1Day = this.currentFilter === '1day';
+    let categories;
+
+    if (isLast1Day) {
+      categories = data.map((entry) => entry.time);
+    } else {
+      categories = data.map((entry) => entry.date);
+    }
+
+    const seriesData = [
+      {
+        name: 'Phase 1',
+        data: data.map((entry) => entry.phase1),
+        type: 'bar',
+        color: '#FFFF8F'
+      },
+      {
+        name: 'Phase 2',
+        data: data.map((entry) => entry.phase2),
+        type: 'bar',
+        color: '#FFD700'
+      },
+      {
+        name: 'Phase 3',
+        data: data.map((entry) => entry.phase3),
+        type: 'bar',
+      },
+      {
+        name: 'Average PCU',
+        type: 'line',
+        data: (data.map((entry) => Math.round(entry.average_pcu))),
+        color: '#FF0000',
+      },
+    ];
+
+    return {
+      series: seriesData,
+      chart: {
+        foreColor: '#999',
+        type: 'line',
+        height: '100%',
+        width: '100%',
+        stacked: false,
+        toolbar: {
+          show: true,
+        },
+        zoom: {
+          enabled: true,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: [3],
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            legend: {
+              show: false,
+              position: 'bottom',
+              offsetX: -10,
+              offsetY: 0,
+            },
+          },
+        },
+      ],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      xaxis: {
+        type: 'category',
+        categories: categories,
+      },
+      legend: {
+        position: 'bottom',
+        onItemClick: {
+          toggleDataSeries: true,
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+    };
+  }
 }

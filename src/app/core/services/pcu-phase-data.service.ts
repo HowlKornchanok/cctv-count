@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
-export class SumVehDataService {
+export class PCUPhaseDataService {
 
-  private apiUrl = 'assets/output.json';
+  private apiUrl = 'assets/pcu_data.json';
 
   constructor(private http: HttpClient) { }
 
@@ -15,3 +14,4 @@ export class SumVehDataService {
     return this.http.get<any[]>(this.apiUrl);
   }
 }
+
