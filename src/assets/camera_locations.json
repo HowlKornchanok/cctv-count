@@ -1,0 +1,119 @@
+[
+  {
+    "location_no": 1,
+    "location_name": "Intersection 1",
+    "lat": 7.557850154593416,
+    "lon": 99.60437288422958,
+    "cameras": [
+      {
+        "camera_no": 1,
+        "status": "active",
+        "days_after_last_maintenance": 280
+      },
+      {
+        "camera_no": 2,
+        "status": "active",
+        "days_after_last_maintenance": 202
+      },
+      {
+        "camera_no": 3,
+        "status": "active",
+        "days_after_last_maintenance": 202
+      },
+      {
+        "camera_no": 4,
+        "status": "active",
+        "days_after_last_maintenance": 202
+      }
+    ]
+  },
+  {
+    "location_no": 2,
+    "location_name": "Intersection 2",
+    "lat": 7.542618376663331,
+    "lon":  99.61592973867563,
+    "cameras": [
+      {
+        "camera_no": 1,
+        "status": "active",
+        "days_after_last_maintenance": 56
+      },
+      {
+        "camera_no": 2,
+        "status": "active",
+        "days_after_last_maintenance": 46
+      },
+      {
+        "camera_no": 3,
+        "status": "active",
+        "days_after_last_maintenance": 77
+      },
+      {
+        "camera_no": 4,
+        "status": "active",
+        "days_after_last_maintenance": 261
+      },
+      {
+        "camera_no": 5,
+        "status": "inactive",
+        "days_after_last_maintenance": 294
+      }
+    ]
+  },
+  {
+    "location_no": 3,
+    "location_name": "Intersection 3",
+    "lat": 7.55786961618612,
+    "lon":  99.58297598283431,
+    "cameras": [
+      {
+        "camera_no": 1,
+        "status": "inactive",
+        "days_after_last_maintenance": 310
+      },
+      {
+        "camera_no": 2,
+        "status": "inactive",
+        "days_after_last_maintenance": 303
+      },
+      {
+        "camera_no": 3,
+        "status": "active",
+        "days_after_last_maintenance": 136
+      },
+      {
+        "camera_no": 4,
+        "status": "active",
+        "days_after_last_maintenance": 210
+      }
+    ]
+  },
+  {
+    "location_no": 4,
+    "location_name": "Intersection 4",
+    "lat": 7.56889471676959, 
+    "lon": 99.65769411474704,
+    "cameras": [
+      {
+        "camera_no": 1,
+        "status": "inactive",
+        "days_after_last_maintenance": 310
+      },
+      {
+        "camera_no": 2,
+        "status": "inactive",
+        "days_after_last_maintenance": 303
+      },
+      {
+        "camera_no": 3,
+        "status": "active",
+        "days_after_last_maintenance": 136
+      },
+      {
+        "camera_no": 4,
+        "status": "active",
+        "days_after_last_maintenance": 210
+      }
+    ]
+  }
+]

@@ -11,6 +11,8 @@ export class Menu2 {
           icon: 'assets/icons/heroicons/outline/cog.svg',
           label: 'Settings',
           route: '/settings',
+          
+          
         },
         { 
           icon : 'assets/icons/heroicons/outline/logout.svg',

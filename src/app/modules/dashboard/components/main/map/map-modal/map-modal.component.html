@@ -1,4 +1,4 @@
-  <div class="modal-container rounded-lg">
+  <div class="modal-container rounded-lg z-[20]">
     <div class="modal-header">
       <img src="assets/icons/close.svg" alt="Close" class="close-button p-4" (click)="closeModal()" />
     </div>
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class=" col-span-4 min-h-[20%] flex justify-center items-center">
+    <div class=" col-span-4  flex justify-center items-center">
       <div *ngIf="getPinCoordinatesForCamera('Camera 1') !== null">
         <p class="w-2/10 bg-white p-2 rounded-lg  text-bold">Pin Coordinates: {{ getPinCoordinatesForCamera('Camera 1') | json }}</p>
       </div>

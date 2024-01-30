@@ -9,13 +9,15 @@ import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls} from 'ol/control.js';
 import { MapModalComponent } from './map-modal/map-modal.component';
 import { ZoomToCentralPin } from './zoomto-central-pin/zoomto-central-pin.component';
-import { ModalService } from 'src/app/core/services/modal.service';
+import { ModalService } from './services/modal.service';
+import { MapDataService } from './services/map-data.service';
 @Component({
-  selector: 'app-map',
+  selector: '[map]',
   standalone: true,
   imports: [CommonModule,MapModalComponent],
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  providers: [MapDataService]
 })
 export class MapComponent implements OnInit {
   map!: Map;
@@ -24,40 +26,45 @@ export class MapComponent implements OnInit {
   @ViewChild(MapModalComponent) mapModalComponent!: MapModalComponent;
 
 
-  constructor(private modalDataService: ModalService) {}
+  constructor(private modalDataService: ModalService, private mapDataService: MapDataService) {}
 
+  getCenterCoordinates(): number[] {
+    return [this.jsonData[0].lon, this.jsonData[0].lat];
+  }
   ngOnInit(): void {
-
-
-    this.map = new Map({
-      controls: defaultControls().extend([
-        new ZoomToCentralPin()
-      ]),
+    this.mapDataService.getMapData().subscribe(data => {
+      this.jsonData = data;
+      console.log('Camera locations fetched successfully:', this.jsonData);
+      const center = [this.jsonData[0].lon, this.jsonData[0].lat];
       
-    
-      layers: [
-        new TileLayer({
-          source: new OSM(),
+
+      // Initialize the map
+      this.map = new Map({
+        controls: defaultControls().extend([
+          new ZoomToCentralPin(this.map, center)
+        ]),
+        layers: [
+          new TileLayer({
+            source: new OSM(),
+          }),
+        ],
+        target: 'map',
+        view: new View({
+          center: fromLonLat(center),
+          zoom: 13,
+          maxZoom: 20,
         }),
-        
-      ],
-      target: 'map',
-      view: new View({
-        center: fromLonLat([99.6239, 7.5645]),
-        zoom: 14,
-        maxZoom: 20,
-      }),
+      });
+      const zoomToCentralPinControl = new ZoomToCentralPin(this.map, center);
+      this.map.addControl(zoomToCentralPinControl);
+
+      
+      this.jsonData.forEach(location => {
+        const coordinates = [location.lon, location.lat];
+        this.addPin(coordinates, location.location_name);
+        console.log(coordinates);
+      });
     });
-
-    // Add a central pin to the map
-    this.addPin([99.6239, 7.5645], 'Central Pin');
-
-    // Add more pins around Trang
-    this.addPin([99.6112, 7.5625], 'Pin 1');
-    this.addPin([99.6295, 7.5755], 'Pin 2');
-    this.addPin([99.6383, 7.5578], 'Pin 3');
-    
-
   }
   
   
@@ -88,17 +95,14 @@ export class MapComponent implements OnInit {
     });
 
 
-    pinElement.addEventListener('click', () => {
+    const pinClickHandler = () => {
       this.zoomToPin(coordinates);
-    });
-
-    pinText.addEventListener('click', () => {
-      this.zoomToPin(coordinates);
-    });
+    };
     buttonElement.addEventListener('click', () => {
       this.openMapModal(coordinates);
     });
-    
+    pinElement.addEventListener('click', pinClickHandler);
+    pinText.addEventListener('click', pinClickHandler);
 
     this.map.addOverlay(pinOverlay);
     this.map.addOverlay(TextOverlay);

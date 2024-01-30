@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SumBarComponent } from './sum-bar.component';
+import { CameraTableComponent } from './camera-table.component';
 
-describe('SumBarComponent', () => {
-  let component: SumBarComponent;
-  let fixture: ComponentFixture<SumBarComponent>;
+describe('CameraTableComponent', () => {
+  let component: CameraTableComponent;
+  let fixture: ComponentFixture<CameraTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SumBarComponent]
+      imports: [CameraTableComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SumBarComponent);
+    fixture = TestBed.createComponent(CameraTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

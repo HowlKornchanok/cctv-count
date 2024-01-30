@@ -3,7 +3,9 @@ export interface MenuItem {
   separator?: boolean;
   selected?: boolean;
   active?: boolean;
+  icon?: string;
   items: Array<SubMenuItem>;
+  
 }
 
 export interface SubMenuItem {

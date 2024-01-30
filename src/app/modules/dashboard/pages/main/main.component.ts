@@ -4,7 +4,8 @@ import { MainColumnChart } from '../../components/main/column-chart/column-chart
 import { MapComponent } from '../../components/main/map/map.component';
 import { BarRankingComponent } from '../../components/main/bar-ranking/bar-ranking.component';
 import { ApiStackedColumnComponent } from '../../components/main/api-stacked-column/api-stacked-column.component';
-import { SumBarComponent } from '../../components/main/sum-bar/sum-bar.component';
+import { CameraTableComponent } from '../../components/main/camera-table/camera-table.component';
+import { WarningComponent } from '../../components/main/warning/warning.component';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { SumBarComponent } from '../../components/main/sum-bar/sum-bar.component
         MapComponent,
         BarRankingComponent,
         ApiStackedColumnComponent,
-        SumBarComponent
+        CameraTableComponent,
+        WarningComponent
 
     ],
 })

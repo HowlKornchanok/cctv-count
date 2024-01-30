@@ -3,7 +3,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { ModalService } from 'src/app/core/services/modal.service';
+import { ModalService } from 'src/app/modules/dashboard/components/main/map/services/modal.service';
 @Component({
   selector: 'app-map-modal',
   standalone: true,

@@ -5,17 +5,28 @@ export class Menu {
     {
       group: '',
       separator: false,
+      icon: 'assets/icons/chart-pie.svg',
+      
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-pie.svg',
+          icon: 'assets/icons/chart-pie.svg',
           label: 'Dashboard',
-          route: '',
-          children: [
-            { label: 'Main', route: '/dashboard/main' },
-            { label: 'Analytics', route: '/dashboard/analytics' },
-            { label: 'History', route: '/dashboard/history' },
-          ],
+          route: '/dashboard/main',
+          
+        }, {
+          icon: 'assets/icons/chart.svg',
+          label: 'Analytics',
+          route: '/dashboard/analytics',
         },
+        {
+          icon: 'assets/icons/table.svg',
+          label: 'History',
+          route: '/dashboard/history',
+
+          
+        }
+        
+        
       ],
     },
     
