@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HistoryTableComponent } from '../../components/analytics/history-table/history-table.component';
+import { HistoryTableComponent } from '../../components/history/history-table/history-table.component';
 
 @Component({
   selector: 'app-history',

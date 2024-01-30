@@ -34,6 +34,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.loadData();
+    
   }
   
   ngOnDestroy(): void {
@@ -44,6 +45,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
+    
     if (this.currentFilter === '1day') {
       // Use the hourly service for 1 day filter
       this.dataServiceHour.getData().subscribe(
@@ -72,6 +74,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   changeFilter(event: any): void {
     this.currentFilter = event.target.value;
     this.loadData();
+    
   }
 
   private filterData(data: any[], interval: string): any[] {
@@ -150,6 +153,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
       }
     ];
     
+    
     return {
       series: seriesData,
       chart: {
@@ -202,6 +206,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         opacity: 0.9
       }
     };
+    
 
     
   }
