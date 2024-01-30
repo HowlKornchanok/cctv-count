@@ -13,9 +13,10 @@
         </p>
         <ul class="list-disc list-inside">
           <li *ngFor="let camera of getInactiveCameras(location.cameras)" class="flex justify-between items-center text-red-500 mb-1 px-2">
-            • {{ camera }}
+            ⚠️ {{ camera }}
             <button class="bg-red-500 text-bold p-1 text-white rounded-md" (click)="reportIssue(location, location.camera_no)">Report Issue</button>
           </li>
+          
         </ul>
       </ng-container>
     </ng-container>

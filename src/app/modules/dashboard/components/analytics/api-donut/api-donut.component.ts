@@ -46,6 +46,7 @@ export class APIDonutComponent implements OnInit, OnDestroy {
       const carData = filteredData.filter((entry) => entry.vehicleType === 'Car').map((entry) => entry.speed);
       const MotorcycleData = filteredData.filter((entry) => entry.vehicleType === 'Motorcycle').map((entry) => entry.speed);
       const truckData = filteredData.filter((entry) => entry.vehicleType === 'Truck').map((entry) => entry.speed);
+      
 
       const sumCar = this.sumVehicleType(carData);
       const sumMotorcycle = this.sumVehicleType(MotorcycleData);

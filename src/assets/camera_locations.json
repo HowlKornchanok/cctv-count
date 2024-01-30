@@ -101,8 +101,8 @@
       },
       {
         "camera_no": 2,
-        "status": "inactive",
-        "days_after_last_maintenance": 303
+        "status": "active",
+        "days_after_last_maintenance": 13
       },
       {
         "camera_no": 3,

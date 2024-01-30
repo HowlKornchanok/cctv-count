@@ -7,12 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class ReportInactiveCameraService {
 
-  private apiUrl = 'your_report_api_url'; // Replace with your actual report API endpoint
+  private apiUrl = 'line_api';
 
   constructor(private http: HttpClient) {}
 
   reportIssue(locationData: any): Observable<any> {
-    // You can customize the payload or headers as needed
     const headers = { 'Content-Type': 'application/json' };
     const payload = JSON.stringify(locationData);
 

@@ -138,7 +138,7 @@ export class SpeedGaugeComponent implements OnInit {
           },
           track: {
             background: "#fff",
-            strokeWidth: "67%",
+            strokeWidth: "0%",
             margin: 0, // margin is in pixels
             dropShadow: {
               enabled: true,
@@ -193,7 +193,7 @@ export class SpeedGaugeComponent implements OnInit {
         }
       },
       stroke: {
-        lineCap: "round"
+        dashArray: 4
       },
       labels: ['AverageSpeed']
       
