@@ -11,7 +11,7 @@ export class ZoomToCentralPin extends Control {
     const zoomToCentralPinButton = document.createElement('button');
     zoomToCentralPinButton.innerHTML = 'C';
     zoomToCentralPinButton.style.position = 'absolute';
-    zoomToCentralPinButton.style.top = '70px';
+    zoomToCentralPinButton.style.top = '100px';
     zoomToCentralPinButton.style.left = '0.5rem'; 
     zoomToCentralPinButton.addEventListener('click', () => {
       this.zoomToCentralPin();

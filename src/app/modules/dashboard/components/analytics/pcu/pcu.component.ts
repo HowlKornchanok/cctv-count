@@ -60,7 +60,7 @@ export class PCUComponent implements OnInit, OnDestroy {
     let categories;
 
     if (isLast1Day) {
-      categories = data.map((entry) => entry.time);
+        
     } else {
       categories = data.map((entry) => entry.date);
     }

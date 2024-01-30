@@ -10,23 +10,7 @@ $box-shadow-color: rgba(0, 0, 0, 0.3);
 
 .apexcharts-tooltip {
 	/** Dark mode */
-	&.apexcharts-theme-dark {
-		box-shadow: 0px 0px 30px 0px $box-shadow-color;
-		border-radius: 0.475rem;
-		border: 0 !important;
-		background: $dark-background !important;
-		color: $dark-foreground;
-
-		.apexcharts-tooltip-title {
-			background: $dark-background !important;
-			font-weight: 500;
-			color: $dark-foreground;
-			border-bottom: 1px solid $dark-border !important;
-		}
-	}
-	.apexcharts-tooltip-title {
-		padding: 0.5rem 1rem;
-	}
+	
 
 	/** Light mode */
 	&.apexcharts-theme-light {

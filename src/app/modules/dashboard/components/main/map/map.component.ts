@@ -117,7 +117,7 @@ export class MapComponent implements OnInit {
     const pinElement = document.createElement('div');
 
     pinElement.className = 'pin';
-    pinElement.innerHTML = '<img src="/assets/icons/pinicon.png" class="pin-icon" />'
+    pinElement.innerHTML = '<img src="/assets/icons/map-pin-30.png" class="pin-icon" />'
     const pinText = document.createElement('div');
 
     pinText.style.position = 'center';
