@@ -95,18 +95,13 @@ export class MapComponent implements OnInit {
     });
 
 
-    const pinClickHandler = () => {
-      this.zoomToPin(coordinates);
-    };
-    buttonElement.addEventListener('click', () => {
+
+    pinElement.addEventListener('click', () => {
       this.openMapModal(coordinates);
     });
-    pinElement.addEventListener('click', pinClickHandler);
-    pinText.addEventListener('click', pinClickHandler);
 
     this.map.addOverlay(pinOverlay);
     this.map.addOverlay(TextOverlay);
-    this.map.addOverlay(buttonOverlay);
 
   }
   createPinText(label: string): HTMLElement {
