@@ -65,8 +65,8 @@ module.exports = {
         custom: '0px 0px 50px 0px rgb(82 63 105 / 15%)',
       },
       colors: {
-        primary: colors.violet,
-        night: colors.stone,
+        primary: colors.blue,
+        night: colors.slate,
       },
     },
     fontFamily: {

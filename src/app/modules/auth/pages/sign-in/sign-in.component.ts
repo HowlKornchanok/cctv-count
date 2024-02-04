@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-
+import { AuthService } from 'src/app/core/guards/auth.service';
+import { DashboardModule } from 'src/app/modules/dashboard/dashboard.module';
 @Component({
     selector: 'app-sign-in',
     templateUrl: './sign-in.component.html',
@@ -16,21 +17,23 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
         AngularSvgIconModule,
         NgClass,
         NgIf,
+        
     ],
+    providers:[AuthService]
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent  {
   form!: FormGroup;
   submitted = false;
-  passwordTextType!: boolean;
+  passwordTextType = false;
 
-  constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router) {}
-
-  ngOnInit(): void {
-    this.form = this._formBuilder.group({
-      user: ['', [Validators.required, ]],
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+    this.form = this.formBuilder.group({
+      user: ['', [Validators.required]],
       password: ['', Validators.required],
     });
   }
+
+  
 
   get f() {
     return this.form.controls;
@@ -40,15 +43,20 @@ export class SignInComponent implements OnInit {
     this.passwordTextType = !this.passwordTextType;
   }
 
-  onSubmit() {
-    this.submitted = true;
+  async onSubmit() {
     const { user, password } = this.form.value;
-
-    // stop here if form is invalid
-    if (this.form.invalid) {
-      return;
+  
+    // Your authentication logic
+    const loginSuccess = await this.authService.login(user, password);
+  
+    if (loginSuccess) {
+      // If login is successful, navigate to the dashboard or another protected route
+      console.log('SignInComponent - Login successful. Navigating to dashboard.');
+      // Authentication status is updated here, but AuthGuard has already checked it
+      this.router.navigate(['/dashboard']);
+    } else {
+      // Handle failed login (e.g., show an error message)
+      console.error('SignInComponent - Authentication failed');
     }
-
-    this._router.navigate(['/']);
   }
 }

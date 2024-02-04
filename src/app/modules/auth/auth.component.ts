@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.scss'],
     standalone: true,
-    imports: [AngularSvgIconModule, RouterOutlet],
+    imports: [AngularSvgIconModule, RouterOutlet,RouterModule],
 })
 export class AuthComponent implements OnInit {
   constructor() {}
