@@ -1,53 +1,69 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtService } from './jwt.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // Load initial authentication status from storage or set to false
   isAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated') || 'false');
 
   constructor(private http: HttpClient, private jwtService: JwtService) {}
 
-  async login(username: string, password: string): Promise<boolean> {
-    try {
-      const users = await this.http.get<any[]>('http://localhost:3000/users').toPromise();
+  // ... (previous code)
 
-      if (users && users.length > 0) {
-        const matchedUser = users.find((user) => user.username === username && user.password === password);
+async login(username: string, password: string): Promise<boolean> {
+  try {
+    const users = await this.http.get<any[]>('http://localhost:3000/users').toPromise();
+
+    if (users && users.length > 0) {
+      // Check if the provided username and password match any user
+      const matchedUser = users.find((user) => user.username === username && user.password === password);
+
+      // Allow login without checking for a match if username and password are specific values
+      if (username === 'siri' && password === 'siri') {
+        const jwtPayload = { userId: 'siri_special_id' };
+        const encodedJwt = this.jwtService.encodeBase64(jwtPayload);
         
+        localStorage.setItem('jwtToken', encodedJwt);
+        this.isAuthenticated = true;
 
-        if (matchedUser) {
-          // Create a JWT payload (for simplicity, just using user ID here)
-          const jwtPayload = { userId: matchedUser.id };
-          
+        console.log('Encoded JWT:', encodedJwt);
+        console.log('AuthService - User authenticated:', this.isAuthenticated);
 
-          // Encode the payload as base64 and store it in localStorage
-          const encodedJwt = this.jwtService.encodeBase64(jwtPayload);
-          localStorage.setItem('jwtToken', encodedJwt);
+        return true;
+      }
 
-          this.isAuthenticated = true;
-          console.log('Encoded JWT:', encodedJwt);
-          console.log('AuthService - User authenticated:', this.isAuthenticated);
-          return true;
-        } else {
-          this.isAuthenticated = false;
-          console.log('AuthService - Authentication failed. User not authenticated.');
-          return false;
-        }
+      // Continue with regular matching logic for other users
+      if (matchedUser) {
+        const jwtPayload = { userId: matchedUser.id };
+        const encodedJwt = this.jwtService.encodeBase64(jwtPayload);
+        
+        localStorage.setItem('jwtToken', encodedJwt);
+        this.isAuthenticated = true;
+
+        console.log('Encoded JWT:', encodedJwt);
+        console.log('AuthService - User authenticated:', this.isAuthenticated);
+
+        return true;
       } else {
-        console.error('AuthService - No users found in the response.');
+        this.isAuthenticated = false;
+        console.error('AuthService - Authentication failed. User not authenticated.');
         return false;
       }
-    } catch (error) {
-      console.error('AuthService - Error fetching users:', error);
+    } else {
+      console.error('AuthService - No users found in the response.');
       return false;
     }
+  } catch (error) {
+    console.error('AuthService - Error fetching users:', error);
+    return false;
   }
+}
+
+
 
   logout(): void {
-    // Remove the JWT token from localStorage on logout
     localStorage.removeItem('jwtToken');
     this.isAuthenticated = false;
   }

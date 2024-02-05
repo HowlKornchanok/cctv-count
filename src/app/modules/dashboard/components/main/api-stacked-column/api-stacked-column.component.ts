@@ -79,7 +79,18 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
 
   private filterData(data: any[], interval: string): any[] {
     const today = new Date();
+    const isLast1Day = this.currentFilter === '1day';
     let filterDate: Date;
+    let categories;
+  
+    if (isLast1Day) {
+      // Handle date filtering for the last 1 day
+    } else {
+      // Combine data for the same date
+      const groupedData = this.groupDataByDate(data);
+      categories = Object.keys(groupedData);
+    }
+  
 
     switch (interval) {
       case '1day':
@@ -109,17 +120,25 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
     });
   }
 
+  private groupDataByDate(data: any[]): { [key: string]: any[] } {
+    return data.reduce((result, entry) => {
+      const dateKey = entry.date;
+      result[dateKey] = result[dateKey] || [];
+      result[dateKey].push(entry);
+      return result;
+    }, {});
+  }
+
   private generateChartOptions(data: any[]): Partial<ChartOptions> {
-    
-    const isLast1Day = this.currentFilter === '1day'
+    const isLast1Day = this.currentFilter === '1day';
     let categories;
+  
     if (isLast1Day) {
-      // Display time instead of date for 1 day filter
-      categories = data.map(entry => entry.time);
+      categories = data.map((entry) => entry.time);
     } else {
-      // Display date for other filters
-      categories = data.map(entry => entry.date);
+      categories = Object.keys(this.groupDataByDate(data));
     }
+  
     
     const seriesData = [
       {
