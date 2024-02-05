@@ -50,6 +50,7 @@
     "font-awesome": "^4.7.0",
     "jsonwebtoken": "^9.0.2",
     "ng-apexcharts": "^1.8.0",
+    "ngx-cookie-service": "^17.1.0",
     "ol": "^8.2.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

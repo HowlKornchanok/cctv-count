@@ -53,7 +53,7 @@ export class SignInComponent  {
       // If login is successful, navigate to the dashboard or another protected route
       console.log('SignInComponent - Login successful. Navigating to dashboard.');
       // Authentication status is updated here, but AuthGuard has already checked it
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['dashboard']);
     } else {
       // Handle failed login (e.g., show an error message)
       console.error('SignInComponent - Authentication failed');

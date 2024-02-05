@@ -8,7 +8,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgClass, NgIf } from '@angular/common';
 import { SidebarMenu2Component } from './sidebar-menu-2/sidebar-menu-2.component';
 import { Menu2Service } from '../../services/menu2.service';
-
+import { AuthService } from 'src/app/core/guards/auth.service';
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
@@ -26,13 +27,22 @@ import { Menu2Service } from '../../services/menu2.service';
 export class SidebarComponent implements OnInit {
   public appJson: any = packageJson;
 
-  constructor( public menuService: MenuService ,public menu2Service: Menu2Service ) {}
+  constructor( public menuService: MenuService ,public menu2Service: Menu2Service, private authService: AuthService , private router: Router) {}
 
   ngOnInit(): void {}
 
   public toggleSidebar() {
     this.menuService.toggleSidebar();
   }
+
+  handleMenuAction(action: string): void {
+    if (action === 'logout') {
+      this.authService.logout();
+      this.router.navigate(['/auth/sign-in']);
+    }
+    // Add more cases for other actions if needed
+  }
+
 
 
 }

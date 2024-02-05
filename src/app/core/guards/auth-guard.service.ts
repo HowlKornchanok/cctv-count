@@ -21,7 +21,6 @@ export class AuthGuardService implements CanActivate {
       // Redirect to the sign-in page with the return URL
       console.warn('AuthGuard - Not authenticated. Redirecting to sign-in.');
       return this.router.createUrlTree(['/auth/sign-in'], {
-        queryParams: { returnUrl: state.url },
       });
     }
   }

@@ -1,6 +1,7 @@
 import { Component,Input, OnInit, OnDestroy  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapDataService } from '../map/services/map-data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[camera-table]',
@@ -15,14 +16,20 @@ import { MapDataService } from '../map/services/map-data.service';
 export class CameraTableComponent implements OnInit, OnDestroy {
   public jsonData: any[] = [];
   public groupedData: any[] = [];
+  private dataServiceSubscription: Subscription | undefined;
 
   constructor(private cameraLocationService: MapDataService) {}
 
   ngOnInit(): void {
     this.loadData();
   }
+  
+  ngOnDestroy(): void {
 
-  ngOnDestroy(): void {}
+    if (this.dataServiceSubscription) {
+      this.dataServiceSubscription.unsubscribe();
+    }
+  }
 
   private loadData(): void {
     // Assuming you have a method in your service to get camera data

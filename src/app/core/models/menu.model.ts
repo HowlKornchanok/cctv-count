@@ -5,6 +5,8 @@ export interface MenuItem {
   active?: boolean;
   icon?: string;
   items: Array<SubMenuItem>;
+  action?: string;
+  
   
 }
 
@@ -15,4 +17,5 @@ export interface SubMenuItem {
   expanded?: boolean;
   active?: boolean;
   children?: Array<SubMenuItem>;
+  action?: string;
 }

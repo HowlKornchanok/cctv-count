@@ -2,7 +2,6 @@ import { MenuItem } from '../models/menu.model';
 
 export class Menu2 {
   public static pages: MenuItem[] = [
-  
     {
       group: '',
       separator: false,
@@ -11,13 +10,11 @@ export class Menu2 {
           icon: 'assets/icons/heroicons/outline/cog.svg',
           label: 'Settings',
           route: '/settings',
-          
-          
         },
         { 
-          icon : 'assets/icons/heroicons/outline/logout.svg',
+          icon: 'assets/icons/heroicons/outline/logout.svg',
           label: 'Sign Out',
-          route: '/auth/sign-in'
+          action: 'logout', 
         },
       ],
     },

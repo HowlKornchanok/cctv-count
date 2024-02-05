@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { DataService } from 'src/app/core/services/data.service';
-import { ThemeService } from 'src/app/core/services/theme.service';
 
 @Component({
   selector: '[api-donut]',
@@ -22,14 +21,13 @@ export class APIDonutComponent implements OnInit, OnDestroy {
   private dataServiceSubscription: Subscription | undefined;
   private currentFilter: string = 'all'; // Default filter value
 
-  constructor(private dataService: DataService , private themeService : ThemeService ) {}
+  constructor(private dataService: DataService  ) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe from the data service to prevent memory leaks
     if (this.dataServiceSubscription) {
       this.dataServiceSubscription.unsubscribe();
     }

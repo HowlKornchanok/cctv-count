@@ -3,6 +3,7 @@ import { Component, OnInit, effect,OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from 'src/app/core/services/data.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[history-table]',
@@ -14,6 +15,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 })
 export class HistoryTableComponent implements OnInit, OnDestroy {
 
+  private dataServiceSubscription: Subscription | undefined;
   public jsonData: any[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 15;
@@ -84,9 +86,10 @@ export class HistoryTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      
+    if (this.dataServiceSubscription) {
+      this.dataServiceSubscription.unsubscribe();
+    }
   }
-
 
 
   

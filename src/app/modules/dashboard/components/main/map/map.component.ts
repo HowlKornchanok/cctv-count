@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit,ViewChild } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -11,6 +11,7 @@ import { MapModalComponent } from './map-modal/map-modal.component';
 import { ZoomToCentralPin } from './zoomto-central-pin/zoomto-central-pin.component';
 import { ModalService } from './services/modal.service';
 import { MapDataService } from './services/map-data.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: '[map]',
   standalone: true,
@@ -19,12 +20,18 @@ import { MapDataService } from './services/map-data.service';
   styleUrls: ['./map.component.scss'],
   providers: [MapDataService]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit,OnDestroy {
   map!: Map;
   public showModal: boolean = false;
   public jsonData: any[] = [];
   @ViewChild(MapModalComponent) mapModalComponent!: MapModalComponent;
+  private dataServiceSubscription: Subscription | undefined;
+  ngOnDestroy(): void {
 
+    if (this.dataServiceSubscription) {
+      this.dataServiceSubscription.unsubscribe();
+    }
+  }
 
   constructor(private modalDataService: ModalService, private mapDataService: MapDataService) {}
 
