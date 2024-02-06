@@ -11,11 +11,6 @@ export class Menu2 {
           label: 'Settings',
           route: '/settings',
         },
-        { 
-          icon: 'assets/icons/heroicons/outline/logout.svg',
-          label: 'Sign Out',
-          action: 'logout', 
-        },
       ],
     },
   ];

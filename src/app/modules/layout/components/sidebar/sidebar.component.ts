@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ThemeService } from 'src/app/core/services/theme.service';
 import packageJson from '../../../../../../package.json';
 import { MenuService } from '../../services/menu.service';
 import { RouterLink } from '@angular/router';
@@ -34,15 +33,6 @@ export class SidebarComponent implements OnInit {
   public toggleSidebar() {
     this.menuService.toggleSidebar();
   }
-
-  handleMenuAction(action: string): void {
-    if (action === 'logout') {
-      this.authService.logout();
-      this.router.navigate(['/auth/sign-in']);
-    }
-    // Add more cases for other actions if needed
-  }
-
 
 
 }

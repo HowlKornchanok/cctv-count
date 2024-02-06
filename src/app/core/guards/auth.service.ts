@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  isAuthenticated = this.cookieService.get('isAuthenticated') === 'true';
+  isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService,
+    private router: Router
+  ) {}
 
   async login(username: string, password: string): Promise<boolean> {
     try {
@@ -18,10 +23,7 @@ export class AuthService {
         const matchedUser = users.find((user) => user.username === username && user.password === password);
 
         if (matchedUser) {
-          this.isAuthenticated = true;
-          // Save authentication status to cookie
-          this.cookieService.set('isAuthenticated', 'true');
-          console.log('AuthService - User authenticated:', this.isAuthenticated);
+          this.setAuthenticated(matchedUser.username);
           return true;
         } else {
           this.isAuthenticated = false;
@@ -29,12 +31,8 @@ export class AuthService {
           return false;
         }
       } else {
-        // Fallback: Allow access with specific credentials if unable to connect to localhost:3000
         if (username === 'siri' && password === 'siri') {
-          this.isAuthenticated = true;
-          // Save authentication status to cookie
-          this.cookieService.set('isAuthenticated', 'true');
-          console.log('AuthService - Fallback: User authenticated with fallback credentials.');
+          this.setAuthenticated('siri');
           return true;
         } else {
           console.error('AuthService - No users found in the response, and fallback credentials are incorrect.');
@@ -42,23 +40,37 @@ export class AuthService {
         }
       }
     } catch (error) {
-      // Fallback: Allow access with specific credentials if unable to connect to localhost:3000
-      if (username === 'siri' && password === 'siri') {
-        this.isAuthenticated = true;
-        // Save authentication status to cookie
-        this.cookieService.set('isAuthenticated', 'true');
-        console.log('AuthService - Fallback: User authenticated with fallback credentials.');
-        return true;
-      } else {
-        console.error('AuthService - Error fetching users and fallback credentials are incorrect:', error);
-        return false;
-      }
+      console.error('AuthService - Error fetching users and fallback credentials are incorrect:', error);
+      return false;
     }
   }
 
   logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('isAuthenticated');
     this.isAuthenticated = false;
-    // Remove authentication status from cookie on logout
-    this.cookieService.delete('isAuthenticated');
+    console.log('AuthService - Logging out user');
+    this.router.navigate(['/auth/sign-in']); // Redirect to sign-in page on logout
+  }
+
+  private setAuthenticated(username: string): void {
+    const tokenPayload = { username: username, expiration: Date.now() + 3600000 }; // 1 hour timeout
+    const token = this.jwtService.encodeBase64(tokenPayload);
+    localStorage.setItem('token', token);
+    localStorage.setItem('isAuthenticated', 'true');
+    this.isAuthenticated = true;
+    console.log('AuthService - User authenticated:', this.isAuthenticated);
+  }
+
+  // Method to refresh token expiration time on user action
+  refreshTokenExpiration(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const tokenPayload = this.jwtService.decodeBase64(token);
+      tokenPayload.expiration = Date.now() + 3600000; // Refresh expiration time to 1 hour in the future
+      const newToken = this.jwtService.encodeBase64(tokenPayload);
+      localStorage.setItem('token', newToken);
+      console.log('AuthService - Token timeout refreshed.');
+    }
   }
 }

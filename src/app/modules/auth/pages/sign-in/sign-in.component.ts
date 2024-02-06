@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AuthService } from 'src/app/core/guards/auth.service';
-import { DashboardModule } from 'src/app/modules/dashboard/dashboard.module';
+
 @Component({
     selector: 'app-sign-in',
     templateUrl: './sign-in.component.html',
@@ -21,7 +21,7 @@ import { DashboardModule } from 'src/app/modules/dashboard/dashboard.module';
     ],
     providers:[AuthService]
 })
-export class SignInComponent  {
+export class SignInComponent {
   form!: FormGroup;
   submitted = false;
   passwordTextType = false;
@@ -33,8 +33,6 @@ export class SignInComponent  {
     });
   }
 
-  
-
   get f() {
     return this.form.controls;
   }
@@ -44,16 +42,20 @@ export class SignInComponent  {
   }
 
   async onSubmit() {
+    this.submitted = true;
+
+    if (this.form.invalid) {
+      return;
+    }
+
     const { user, password } = this.form.value;
-  
+
     // Your authentication logic
     const loginSuccess = await this.authService.login(user, password);
-  
     if (loginSuccess) {
-      // If login is successful, navigate to the dashboard or another protected route
-      console.log('SignInComponent - Login successful. Navigating to dashboard.');
-      // Authentication status is updated here, but AuthGuard has already checked it
-      this.router.navigate(['']);
+
+
+      window.location.href = 'http://localhost:4200/';
     } else {
       // Handle failed login (e.g., show an error message)
       console.error('SignInComponent - Authentication failed');
