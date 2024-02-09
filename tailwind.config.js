@@ -66,7 +66,19 @@ module.exports = {
       },
       colors: {
         primary: colors.blue,
-        night: colors.slate,
+        night: {
+          50: '#e4e4eb',
+          100: '#bbbace',
+          200: '#8f8ead',
+          300: '#66658c',
+          400: '#4b4777',
+          500: '#302a62',
+          600: '#2b245b',
+          700: '#566573',
+          800: '#1f2744',
+          900: '#192139',
+        },
+
       },
     },
     fontFamily: {

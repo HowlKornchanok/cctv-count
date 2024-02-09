@@ -5,6 +5,7 @@ import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { SumVehDataService } from 'src/app/core/services/sum-veh-data.service';
 import { SumVehByHourService } from 'src/app/core/services/sum-veh-by-hour.service';
 import { ThemeService } from 'src/app/core/services/theme.service';
+
 @Component({
     selector: '[api-stacked-column]',
     templateUrl: './api-stacked-column.component.html',
@@ -13,39 +14,39 @@ import { ThemeService } from 'src/app/core/services/theme.service';
     styles: [],
     providers: [SumVehDataService , SumVehByHourService]
 })
-
 export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   public jsonData: any[] = [];
   public chartOptions: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
   public currentFilter: string = '1day';
+
   constructor(
     private dataService: SumVehDataService,
     private dataServiceHour: SumVehByHourService,
-    private themeService : ThemeService) {
-      effect(() => {
-        this.chartOptions.tooltip = {
-          theme: this.themeService.themeChanged(),
-        };
-        
-      });
-    }
-  
+    private themeService : ThemeService
+  ) {
+    // Use the effect hook to watch for changes in theme and update the chart tooltip theme accordingly
+    effect(() => {
+      this.chartOptions.tooltip = {
+        theme: this.themeService.themeChanged(),
+      };
+    });
+  }
   
   ngOnInit(): void {
+    // Load data when component initializes
     this.loadData();
-    
   }
   
   ngOnDestroy(): void {
-
+    // Unsubscribe from data service subscription when component is destroyed
     if (this.dataServiceSubscription) {
       this.dataServiceSubscription.unsubscribe();
     }
   }
 
   private loadData(): void {
-    
+    // Load data based on current filter selection
     if (this.currentFilter === '1day') {
       // Use the hourly service for 1 day filter
       this.dataServiceHour.getData().subscribe(
@@ -72,12 +73,13 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   }
 
   changeFilter(event: any): void {
+    // Update current filter and reload data when filter selection changes
     this.currentFilter = event.target.value;
     this.loadData();
-    
   }
 
   private filterData(data: any[], interval: string): any[] {
+    // Filter data based on the selected interval
     const today = new Date();
     const isLast1Day = this.currentFilter === '1day';
     let filterDate: Date;
@@ -91,7 +93,6 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
       categories = Object.keys(groupedData);
     }
   
-
     switch (interval) {
       case '1day':
         filterDate = new Date(today);
@@ -110,7 +111,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         filterDate.setFullYear(today.getFullYear() - 1);
         break;
       default:
-
+        // If interval is not recognized, return the original data
         return data;
     }
 
@@ -121,6 +122,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   }
 
   private groupDataByDate(data: any[]): { [key: string]: any[] } {
+    // Group data by date
     return data.reduce((result, entry) => {
       const dateKey = entry.date;
       result[dateKey] = result[dateKey] || [];
@@ -130,6 +132,7 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   }
 
   private generateChartOptions(data: any[]): Partial<ChartOptions> {
+    // Generate chart options based on the filtered data
     const isLast1Day = this.currentFilter === '1day';
     let categories;
   
@@ -139,20 +142,17 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
       categories = Object.keys(this.groupDataByDate(data));
     }
   
-    
     const seriesData = [
       {
         name: 'Truck',
         data: data.map(entry => entry.sumTruck),
         type: 'bar',
-        
       },
       {
         name: 'Car',
         data: data.map(entry => entry.sumCar),
         color: '#009900',
         type: 'bar',
-
       },
       {
         name: 'Motorbike',
@@ -171,7 +171,6 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
         color: '#FF0000'
       }
     ];
-    
     
     return {
       series: seriesData,
@@ -208,7 +207,6 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
       plotOptions: {
         bar: {
           horizontal: false,
-          
         },
       },
       xaxis: {
@@ -224,12 +222,6 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
       fill: {
         opacity: 0.9
       }
-    };
-    
-
-    
+    };    
   }
-  
-
-
 }

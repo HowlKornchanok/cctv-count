@@ -3,7 +3,7 @@ import { MenuItem } from '../models/menu.model';
 export class Menu {
   public static pages: MenuItem[] = [
     {
-      group: '',
+      group: 'Menu',
       separator: false,
       icon: 'assets/icons/chart-pie.svg',
       
@@ -25,6 +25,7 @@ export class Menu {
 
           
         }
+        
         
         
       ],

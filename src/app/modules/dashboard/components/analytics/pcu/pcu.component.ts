@@ -127,7 +127,7 @@ export class PCUComponent implements OnInit, OnDestroy {
         name: 'Average PCU',
         type: 'line',
         data: (data.map((entry) => Math.round(entry.average_pcu))),
-        color: '#FF0000',
+        color: '#FF7518',
       },
     ];
 

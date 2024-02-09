@@ -17,9 +17,10 @@ import { WarningComponent } from '../../components/main/warning/warning.componen
         MapComponent,
         ApiStackedColumnComponent,
         CameraTableComponent,
-        WarningComponent
+        WarningComponent,
 
     ],
+    
 })
 export class MainComponent  {
  

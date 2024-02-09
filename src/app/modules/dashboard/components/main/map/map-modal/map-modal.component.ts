@@ -4,12 +4,20 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ModalService } from 'src/app/modules/dashboard/components/main/map/services/modal.service';
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
+
 @Component({
   selector: 'app-map-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,],
   templateUrl: './map-modal.component.html',
-  styleUrls: ['./map-modal.component.scss']
+  styleUrls: ['./map-modal.component.scss'],
 })
 export class MapModalComponent implements OnInit,OnDestroy {
 
@@ -17,7 +25,6 @@ export class MapModalComponent implements OnInit,OnDestroy {
   @Input() pinCoordinates: number[] = [];
   @Output() closeModalEvent = new EventEmitter();
   private pinCoordinatesSubscription!: Subscription;
-
   cameras: any[] = [
     { name: 'Camera 1', location: 'Location 1' },
     { name: 'Camera 2', location: 'Location 2' },
@@ -53,4 +60,7 @@ export class MapModalComponent implements OnInit,OnDestroy {
     this.isPlayerLarger[index] = !this.isPlayerLarger[index];
     
   }
+
+
+  
 }

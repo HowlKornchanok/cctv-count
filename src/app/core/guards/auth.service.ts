@@ -8,6 +8,7 @@ import { JwtService } from './jwt.service';
 })
 export class AuthService {
   isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  userRole!: string; // Variable to store user's role
 
   constructor(
     private http: HttpClient,
@@ -23,7 +24,7 @@ export class AuthService {
         const matchedUser = users.find((user) => user.username === username && user.password === password);
 
         if (matchedUser) {
-          this.setAuthenticated(matchedUser.username);
+          this.setAuthenticated(matchedUser.username, matchedUser.role); // Pass role to setAuthenticated
           return true;
         } else {
           this.isAuthenticated = false;
@@ -31,14 +32,10 @@ export class AuthService {
           return false;
         }
       } else {
-        if (username === 'siri' && password === 'siri') {
-          this.setAuthenticated('siri');
-          return true;
-        } else {
-          console.error('AuthService - No users found in the response, and fallback credentials are incorrect.');
-          return false;
-        }
+        console.error('AuthService - No users found in the response, and fallback credentials are incorrect.');
+        return false;
       }
+      
     } catch (error) {
       console.error('AuthService - Error fetching users and fallback credentials are incorrect:', error);
       return false;
@@ -48,21 +45,24 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole'); // Remove user role on logout
     this.isAuthenticated = false;
     console.log('AuthService - Logging out user');
     this.router.navigate(['/auth/sign-in']); // Redirect to sign-in page on logout
   }
 
-  private setAuthenticated(username: string): void {
+  private setAuthenticated(username: string, role: string): void {
     const tokenPayload = { username: username, expiration: Date.now() + 3600000 }; // 1 hour timeout
     const token = this.jwtService.encodeBase64(tokenPayload);
     localStorage.setItem('token', token);
     localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('userRole', role); // Store user role
+    this.userRole = role; // Set userRole property
     this.isAuthenticated = true;
     console.log('AuthService - User authenticated:', this.isAuthenticated);
+    console.log('AuthService - User role:', this.userRole); // Log user role to console
   }
-
-  // Method to refresh token expiration time on user action
+  
   refreshTokenExpiration(): void {
     const token = localStorage.getItem('token');
     if (token) {
@@ -72,5 +72,9 @@ export class AuthService {
       localStorage.setItem('token', newToken);
       console.log('AuthService - Token timeout refreshed.');
     }
+  }
+
+  hasRole(role: string): boolean {
+    return this.isAuthenticated && this.userRole === role;
   }
 }

@@ -8,8 +8,8 @@ export class Menu2 {
       items: [
         {
           icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Settings',
-          route: '/settings',
+          label: 'Setting',
+          route: '/dashboard/setting',
         },
       ],
     },

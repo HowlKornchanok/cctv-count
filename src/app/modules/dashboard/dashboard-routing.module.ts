@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { AnalyticsComponent} from './pages/analytics/analytics.component';
 import { MainComponent } from './pages/main/main.component';
 import { HistoryComponent } from './pages/history/history.component';
-
+import { SettingComponent } from './pages/setting/setting.component';
 
 const routes: Routes = [
   
@@ -16,6 +16,7 @@ const routes: Routes = [
       { path: 'main', component: MainComponent },
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'history', component:HistoryComponent},
+      { path: 'setting', component: SettingComponent},
       { path: '**', redirectTo: 'error/404' },
     ],
   },

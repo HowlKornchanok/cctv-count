@@ -110,8 +110,8 @@ export class APIDonutComponent implements OnInit, OnDestroy {
       chart: {
         foreColor: '#999',
         type: "radialBar",
-        height: 300,
-        width: '100%',
+        height: 250,
+        width: '80%',
         stacked: true,
         toolbar: {
           show: false

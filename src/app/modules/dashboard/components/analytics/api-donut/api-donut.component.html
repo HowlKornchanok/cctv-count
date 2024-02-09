@@ -1,5 +1,5 @@
 <div class="mb-4 flex items-center justify-between">
-  <div class="flex-col col-span-1 items-center">
+  <div class="flex-col col-span-7 items-center">
     <h3 class="text-md font-bold text-gray-900 dark:text-night-50">Chart</h3>
     <span class="text-sm text-gray-400 dark:text-night-300">Stacked Column from API</span>
   </div>
@@ -12,9 +12,9 @@
     </select>
   </div>
 </div>
-<div class="flex  justify-center">
+<div class="flex flex-row-7 justify-center">
   
-      <apx-chart class="w-full"
+      <apx-chart class="col-span-1 "
         [series]="chartOptionsCar.nonaxisseries!"
         [chart]="chartOptionsCar.chart!"
         [legend]="chartOptionsCar.legend!"
@@ -37,7 +37,7 @@
   
 
   
-      <apx-chart class="w-full"
+      <apx-chart class="col-span-1"
         [series]="chartOptionsMotorcycle.nonaxisseries!"
         [chart]="chartOptionsMotorcycle.chart!"
         [legend]="chartOptionsMotorcycle.legend!"
@@ -60,7 +60,7 @@
   
 
   
-      <apx-chart class="w-full"
+      <apx-chart class="col-span-1"
         [series]="chartOptionsTruck.nonaxisseries!"
         [chart]="chartOptionsTruck.chart!"
         [legend]="chartOptionsTruck.legend!"
@@ -80,4 +80,91 @@
         [labels]="chartOptionsTruck.labels"
       ></apx-chart>
 
+</div>
+<div class="flex flex-row-7 justify-center">
+      <apx-chart class="col-span-1"
+      [series]="chartOptionsCar.nonaxisseries!"
+      [chart]="chartOptionsCar.chart!"
+      [legend]="chartOptionsCar.legend!"
+      [dataLabels]="chartOptionsCar.dataLabels!"
+      [fill]="chartOptionsCar.fill!"
+      [stroke]="chartOptionsCar.stroke!"
+      [xaxis]="chartOptionsCar.xaxis!"
+      [yaxis]="chartOptionsCar.yaxis!"
+      [responsive]="chartOptionsCar.responsive!"
+      [states]="chartOptionsCar.states!"
+      [tooltip]="chartOptionsCar.tooltip!"
+      [colors]="chartOptionsCar.colors!"
+      [grid]="chartOptionsCar.grid!"
+      [title]="chartOptionsCar.title!"
+      [theme]="chartOptionsCar.theme!"
+      [plotOptions]="chartOptionsCar.plotOptions!"
+      [labels]="chartOptionsCar.labels"
+    ></apx-chart>
+
+
+
+
+    <apx-chart class="col-span-1"
+      [series]="chartOptionsMotorcycle.nonaxisseries!"
+      [chart]="chartOptionsMotorcycle.chart!"
+      [legend]="chartOptionsMotorcycle.legend!"
+      [dataLabels]="chartOptionsMotorcycle.dataLabels!"
+      [fill]="chartOptionsMotorcycle.fill!"
+      [stroke]="chartOptionsMotorcycle.stroke!"
+      [xaxis]="chartOptionsMotorcycle.xaxis!"
+      [yaxis]="chartOptionsMotorcycle.yaxis!"
+      [responsive]="chartOptionsMotorcycle.responsive!"
+      [states]="chartOptionsMotorcycle.states!"
+      [tooltip]="chartOptionsMotorcycle.tooltip!"
+      [colors]="chartOptionsMotorcycle.colors!"
+      [grid]="chartOptionsMotorcycle.grid!"
+      [title]="chartOptionsMotorcycle.title!"
+      [theme]="chartOptionsMotorcycle.theme!"
+      [plotOptions]="chartOptionsMotorcycle.plotOptions!"
+      [labels]="chartOptionsMotorcycle.labels"
+    ></apx-chart>
+
+
+
+
+    <apx-chart class="col-span-1"
+      [series]="chartOptionsTruck.nonaxisseries!"
+      [chart]="chartOptionsTruck.chart!"
+      [legend]="chartOptionsTruck.legend!"
+      [dataLabels]="chartOptionsTruck.dataLabels!"
+      [fill]="chartOptionsTruck.fill!"
+      [stroke]="chartOptionsTruck.stroke!"
+      [xaxis]="chartOptionsTruck.xaxis!"
+      [yaxis]="chartOptionsTruck.yaxis!"
+      [responsive]="chartOptionsTruck.responsive!"
+      [states]="chartOptionsTruck.states!"
+      [tooltip]="chartOptionsTruck.tooltip!"
+      [colors]="chartOptionsTruck.colors!"
+      [grid]="chartOptionsTruck.grid!"
+      [title]="chartOptionsTruck.title!"
+      [theme]="chartOptionsTruck.theme!"
+      [plotOptions]="chartOptionsTruck.plotOptions!"
+      [labels]="chartOptionsTruck.labels"
+    ></apx-chart> 
+
+    <apx-chart class="col-span-1"
+    [series]="chartOptionsTruck.nonaxisseries!"
+    [chart]="chartOptionsTruck.chart!"
+    [legend]="chartOptionsTruck.legend!"
+    [dataLabels]="chartOptionsTruck.dataLabels!"
+    [fill]="chartOptionsTruck.fill!"
+    [stroke]="chartOptionsTruck.stroke!"
+    [xaxis]="chartOptionsTruck.xaxis!"
+    [yaxis]="chartOptionsTruck.yaxis!"
+    [responsive]="chartOptionsTruck.responsive!"
+    [states]="chartOptionsTruck.states!"
+    [tooltip]="chartOptionsTruck.tooltip!"
+    [colors]="chartOptionsTruck.colors!"
+    [grid]="chartOptionsTruck.grid!"
+    [title]="chartOptionsTruck.title!"
+    [theme]="chartOptionsTruck.theme!"
+    [plotOptions]="chartOptionsTruck.plotOptions!"
+    [labels]="chartOptionsTruck.labels"
+  ></apx-chart> 
   </div>
