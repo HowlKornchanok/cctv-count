@@ -20,7 +20,8 @@
       </svg-icon>
 
       <a class="ml-3 truncate text-xs font-semibold tracking-wide text-gray-600 focus:outline-none dark:text-night-100">
-        {{ themeService.isDark ? 'Light Theme' : 'Dark Theme' }}
+        {{ translations[currentLanguage][themeService.isDark ? 'Light Theme' : 'Dark Theme'] }}
+
       </a>
 
       <div class="fixed w-full" *ngIf="!menu2Service.showSideBar">
@@ -47,9 +48,9 @@
             <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"> </svg-icon>
           </div>
   
-          <!-- Condition -->
+
           <ng-container
-            [ngTemplateOutlet]="item.children ? childMenu : parentMenu"
+            [ngTemplateOutlet]="parentMenu"
             [ngTemplateOutletContext]="{ item: item }">
           </ng-container>
   
@@ -61,36 +62,11 @@
               <a
                 routerLinkActive="text-primary-500"
                 class="ml-10 truncate text-xs font-semibold tracking-wide focus:outline-none">
-                {{ item.label }}
+                {{ translations[currentLanguage][item.label] }}
               </a>
             </div>
           </ng-template>
-  
-          <!-- Workaround:: Disable routerLink -->
-          <ng-template #childMenu let-item="item">
-            <div
-              class="flex h-9 cursor-pointer items-center justify-start rounded hover:bg-gray-100 dark:hover:bg-night-600">
-              <a
-                class="ml-10 truncate text-xs font-semibold tracking-wide text-gray-600 focus:outline-none dark:text-night-100">
-                {{ item.label }}
-              </a>
-            </div>
-          </ng-template>
-  
-          <!-- Arrow Icon -->
-  
-  
-          <!-- Tooltip -->
-          <div class="fixed w-full" *ngIf="!menu2Service.showSideBar">
-            <span
-              class="z-1 absolute left-14 -top-[34px] w-auto min-w-max origin-left scale-0 rounded-md bg-black p-2 text-xs font-bold text-white shadow-md transition-all duration-200 group-hover:scale-100 dark:bg-white dark:text-night-900">
-              {{ item.label }}
-            </span>
-          </div>
         </div>
-  
-        <!-- Submenu items -->
-        <app-sidebar-submenu [submenu]="item"></app-sidebar-submenu>
       </li>
     </ul>
   
@@ -108,15 +84,9 @@
     </svg-icon>
   
     <a class="ml-3 truncate text-xs font-semibold tracking-wide text-gray-600 focus:outline-none dark:text-night-100">
-      Logout
+      {{ translations[currentLanguage]['Sign Out'] }}
     </a>
-  
-    <div class="fixed w-full" *ngIf="!menu2Service.showSideBar">
-      <span
-        class="z-1 absolute left-12 -top-4 w-auto min-w-max origin-left scale-0 rounded-md bg-black p-2 text-xs font-bold text-white shadow-md transition-all duration-200 group-hover:scale-100 dark:bg-white dark:text-night-900">
-        Theme
-      </span>
-    </div>
+ 
   </div>
     
   </div>

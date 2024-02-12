@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterOutlet, Event } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,8 +14,11 @@ import { FooterComponent } from './components/footer/footer.component';
 })
 export class LayoutComponent implements OnInit {
   private mainContent: HTMLElement | null = null;
+  currentLanguage : string = 'th';
+  translations = this.languageService.translations
 
-  constructor(private router: Router) {
+  constructor(private router: Router , private languageService: LanguageService) {
+    
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         if (this.mainContent) {
@@ -26,5 +30,8 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainContent = document.getElementById('main-content');
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
   }
 }

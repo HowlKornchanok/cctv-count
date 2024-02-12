@@ -5,6 +5,7 @@ import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { SumVehDataService } from 'src/app/core/services/sum-veh-data.service';
 import { SumVehByHourService } from 'src/app/core/services/sum-veh-by-hour.service';
 import { ThemeService } from 'src/app/core/services/theme.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
     selector: '[api-stacked-column]',
@@ -19,13 +20,16 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   public chartOptions: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
   public currentFilter: string = '1day';
+  currentLanguage : string = 'th';
+  translations = this.languageService.translations
 
   constructor(
     private dataService: SumVehDataService,
     private dataServiceHour: SumVehByHourService,
-    private themeService : ThemeService
+    private themeService : ThemeService,
+    private languageService : LanguageService
   ) {
-    // Use the effect hook to watch for changes in theme and update the chart tooltip theme accordingly
+
     effect(() => {
       this.chartOptions.tooltip = {
         theme: this.themeService.themeChanged(),
@@ -36,6 +40,9 @@ export class ApiStackedColumnComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Load data when component initializes
     this.loadData();
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
   }
   
   ngOnDestroy(): void {

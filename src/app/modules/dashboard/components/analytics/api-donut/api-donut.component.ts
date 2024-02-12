@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { DataService } from 'src/app/core/services/data.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: '[api-donut]',
@@ -20,10 +21,18 @@ export class APIDonutComponent implements OnInit, OnDestroy {
   public chartOptionsTruck: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
   private currentFilter: string = 'all'; // Default filter value
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations
 
-  constructor(private dataService: DataService  ) {}
+
+
+  constructor(private dataService: DataService ,private languageService: LanguageService ) {}
 
   ngOnInit(): void {
+
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
     this.loadData();
   }
 
@@ -85,24 +94,21 @@ export class APIDonutComponent implements OnInit, OnDestroy {
     });
   }
 
-  private filterLastSevenDays(data: any[]): any[] {
-    const today = new Date();
-    const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 7);
-
-    return data.filter((entry) => {
-      const entryDate = new Date(entry.date);
-      return entryDate >= sevenDaysAgo && entryDate <= today;
-    });
-  }
 
   private sumVehicleType(data: number[]): number {
     return data.reduce((sum, value) => sum + value, 0);
   }
 
+  private translateLabel(label: string): string {
+    return this.translations[this.currentLanguage][label] || label;
+  }
+  
+
   private getChartOptions(title: string, value: number, total: number, color: string): Partial<ChartOptions> {
     const colors = ['#FF5733', '#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f1c40f', '#1abc9c', '#ecf0f1', '#e67e22', '#34495e', '#d35400', '#bdc3c7'];
     const percent = Math.round((value / total) * 100);
+    const translatedTitle = this.translateLabel(title);
+
 
     return {
       nonaxisseries: [percent],
@@ -216,11 +222,13 @@ export class APIDonutComponent implements OnInit, OnDestroy {
       stroke: {
         lineCap: "round"
       },
-      labels: [title]
+      labels:[translatedTitle]
+
       
       
     };
     
 
   }
+  
 }

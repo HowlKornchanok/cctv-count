@@ -7,6 +7,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgFor, NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
 import { ThemeService } from 'src/app/core/services/theme.service';
 import { AuthService } from 'src/app/core/guards/auth.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
     selector: 'app-sidebar-menu-2',
@@ -30,9 +31,20 @@ export class SidebarMenu2Component implements OnInit {
     public menu2Service: Menu2Service,
     public themeService: ThemeService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private languageService: LanguageService
   ) {}
-  
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations
+
+
+
+  ngOnInit(): void {
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
+  }
+
   public toggleMenu(subMenu: SubMenuItem) {
     this.menu2Service.toggleMenu(subMenu);
   }
@@ -49,5 +61,4 @@ export class SidebarMenu2Component implements OnInit {
     console.log('User logged out'); // Add a console log statement
   }
 
-  ngOnInit(): void {}
 }

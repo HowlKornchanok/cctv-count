@@ -5,6 +5,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { CommonModule } from '@angular/common';
 import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: '[speed-gauge]',
@@ -18,13 +19,21 @@ export class SpeedGaugeComponent implements OnInit {
   public jsonData: any[] = [];
   public chartOptions: Partial<ChartOptions> = {};
   private dataServiceSubscription: Subscription | undefined;
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations
+
+
+
 
   
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService ,private languageService: LanguageService) {}
   currentFilter: string = '7days';
   
   ngOnInit(): void {
     this.loadData();
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
   }
 
   ngOnDestroy(): void {

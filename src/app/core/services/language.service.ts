@@ -1,22 +1,30 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { translations } from './translations';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  private currentLanguage: string = 'th';
-  languageChanged: EventEmitter<string> = new EventEmitter<string>();
+  private currentLanguageSubject: BehaviorSubject<string>;
+  currentLanguage$: Observable<string>; // Change the type to Observable<string>
+  translations = translations;
 
-  constructor() { }
+  constructor() {
+    // Initialize current language from localStorage or default to 'th'
+    const storedLanguage = localStorage.getItem('currentLanguage');
+    this.currentLanguageSubject = new BehaviorSubject<string>(storedLanguage || 'th');
+    this.currentLanguage$ = this.currentLanguageSubject.asObservable(); // Assign currentLanguage$ here
+  }
 
   getCurrentLanguage(): string {
-    return this.currentLanguage;
-    
+    return this.currentLanguageSubject.value;
   }
 
   toggleLanguage(): void {
-    this.currentLanguage = this.currentLanguage === 'th' ? 'en' : 'th';
-    console.log('Current Language:', this.currentLanguage);
-    this.languageChanged.emit(this.currentLanguage); // Emit event when language changes
+    const newLanguage = this.getCurrentLanguage() === 'th' ? 'en' : 'th';
+    this.currentLanguageSubject.next(newLanguage);
+    localStorage.setItem('currentLanguage', newLanguage); // Save to localStorage
+    console.log('Current Language:', newLanguage);
   }
 }

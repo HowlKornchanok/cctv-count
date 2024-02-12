@@ -9,6 +9,7 @@ import { SidebarMenu2Component } from './sidebar-menu-2/sidebar-menu-2.component
 import { Menu2Service } from '../../services/menu2.service';
 import { AuthService } from 'src/app/core/guards/auth.service';
 import { Router } from '@angular/router';
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
@@ -25,10 +26,17 @@ import { Router } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
   public appJson: any = packageJson;
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations
 
-  constructor( public menuService: MenuService ,public menu2Service: Menu2Service, private authService: AuthService , private router: Router) {}
+  ngOnInit(): void {
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
+  }
+  constructor( public menuService: MenuService ,public menu2Service: Menu2Service, private authService: AuthService , private router: Router, private languageService: LanguageService) {}
 
-  ngOnInit(): void {}
+
 
   public toggleSidebar() {
     this.menuService.toggleSidebar();

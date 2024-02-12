@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataService } from 'src/app/core/services/data.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: '[history-table]',
@@ -14,6 +15,12 @@ import { Subscription } from 'rxjs';
   providers: [DataService],
 })
 export class HistoryTableComponent implements OnInit, OnDestroy {
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations
+
+ 
+
+
 
   private dataServiceSubscription: Subscription | undefined;
   public jsonData: any[] = [];
@@ -21,11 +28,14 @@ export class HistoryTableComponent implements OnInit, OnDestroy {
   itemsPerPage: number = 15;
   totalPages: number = 10;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private languageService: LanguageService) {}
   selectedFilter: string = '1day';
     
   ngOnInit(): void {
     this.loadData();
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
   }
   nextPage(): void {
     if (this.currentPage < this.totalPages) {

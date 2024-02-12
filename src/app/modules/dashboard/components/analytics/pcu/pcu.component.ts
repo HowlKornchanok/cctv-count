@@ -5,7 +5,7 @@ import { ChartOptions } from 'src/app/shared/models/chart-options';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { PCUPhaseDataService } from 'src/app/core/services/pcu-phase-data.service';
 import { Subscription } from 'rxjs';
-
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: '[PCUchart]',
   standalone: true,
@@ -18,10 +18,14 @@ export class PCUComponent implements OnInit, OnDestroy {
   private dataServiceSubscription: Subscription | undefined;
   public currentFilter: string = '1day';
   public chartOptions: Partial<ChartOptions> = {};
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations
+
 
   constructor(
     private themeService: ThemeService,
-    private pcuPhasedataService: PCUPhaseDataService
+    private pcuPhasedataService: PCUPhaseDataService,
+    private languageService: LanguageService
   ) {
     effect(() => {
       this.chartOptions.tooltip = {
@@ -33,6 +37,9 @@ export class PCUComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadData();
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
   }
 
   ngOnDestroy(): void {

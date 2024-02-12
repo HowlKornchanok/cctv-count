@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
 import { LanguageService } from 'src/app/core/services/language.service';
+
 @Component({
     selector: 'app-profile-menu',
     templateUrl: './profile-menu.component.html',
@@ -18,8 +19,13 @@ import { LanguageService } from 'src/app/core/services/language.service';
 export class ProfileMenuComponent implements OnInit {
   public isMenuOpen = false;
   currentLanguage: string = 'th';
+  translations = this.languageService.translations;
 
-  constructor(public languageService: LanguageService) {}
+
+
+  constructor(public languageService: LanguageService) {
+
+  }
 
   toggleLanguage() {
     this.languageService.toggleLanguage();

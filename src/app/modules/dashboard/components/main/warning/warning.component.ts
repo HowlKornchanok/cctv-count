@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapDataService } from '../map/services/map-data.service';
 import { ReportInactiveCameraService } from '../services/report-inactive-camera.service';
-
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: '[cemera-warning]',
   standalone: true,
@@ -15,14 +15,20 @@ export class WarningComponent {
 
   public jsonData: any[] = [];
   public groupedData: any[] = [];
+  currentLanguage: string = 'th';
+  translations = this.languageService.translations;
 
   constructor(
     private cameraLocationService: MapDataService,
-    private reportService: ReportInactiveCameraService  
+    private reportService: ReportInactiveCameraService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     this.loadData();
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
+    });
   }
 
   ngOnDestroy(): void {}

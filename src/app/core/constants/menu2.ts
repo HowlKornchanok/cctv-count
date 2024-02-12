@@ -8,7 +8,7 @@ export class Menu2 {
       items: [
         {
           icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Setting',
+          label: 'Settings',
           route: '/dashboard/setting',
         },
       ],
