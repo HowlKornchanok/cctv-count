@@ -1,66 +1,56 @@
-// map-modal.component.ts
-
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ModalService } from 'src/app/modules/dashboard/components/main/map/services/modal.service';
-import { VgCoreModule } from '@videogular/ngx-videogular/core';
-import { VgControlsModule } from '@videogular/ngx-videogular/controls';
-import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
-import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
+import { LocationData, CameraData } from './location-data.interface';
+import { MapDataService } from '../services/map-data.service';
 
 @Component({
   selector: 'app-map-modal',
   standalone: true,
-  imports: [CommonModule,VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,],
+  imports: [CommonModule],
   templateUrl: './map-modal.component.html',
   styleUrls: ['./map-modal.component.scss'],
+  providers: [MapDataService]
 })
-export class MapModalComponent implements OnInit,OnDestroy {
-
+export class MapModalComponent implements OnInit, OnDestroy {
   @Input() showModal: boolean = false;
-  @Input() pinCoordinates: number[] = [];
+  @Input() locationNo?: number;
+  public jsonData: any[] = [];
   @Output() closeModalEvent = new EventEmitter();
-  private pinCoordinatesSubscription!: Subscription;
-  cameras: any[] = [
-    { name: 'Camera 1', location: 'Location 1' },
-    { name: 'Camera 2', location: 'Location 2' },
-    { name: 'Camera 3', location: 'Location 3' },
-    { name: 'Camera 4', location: 'Location 4' },
-  ];
+  public locationData: LocationData[] = [];
+  public locationNumberNum: number = 0; // Initialize with a default value
+  private locationDataSubscription!: Subscription;
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService, private mapDataService: MapDataService) {}
+
   ngOnInit(): void {
-    this.pinCoordinatesSubscription = this.modalService.pinCoordinates$.subscribe(
-      (coordinates) => {
-        this.pinCoordinates = coordinates;
-        console.log('Received Pin Coordinates:', this.pinCoordinates);
+    this.locationDataSubscription = this.modalService.locationData$.subscribe(
+      (locationNumber) => {
+        // Convert locationNumber to number
+        this.locationNumberNum = Number(locationNumber);
+        this.locationData = this.jsonData.filter(item => item.location_no === this.locationNumberNum);
+        console.log(this.locationNumberNum);
       }
     );
+  
+    this.mapDataService.getMapData().subscribe(data => {
+      this.jsonData = data;
+      console.log('Camera locations fetched successfully:', this.jsonData);
+    });
   }
-
+  
   ngOnDestroy(): void {
-    this.pinCoordinatesSubscription.unsubscribe();
+    this.locationDataSubscription.unsubscribe();
   }
 
   closeModal() {
     this.closeModalEvent.emit();
   }
 
-  getPinCoordinatesForCamera(cameraName: string): number[] | null {
-    const camera = this.cameras.find(c => c.name === cameraName);
-    return camera ? this.pinCoordinates : null;
-  }
   isPlayerLarger: boolean[] = [false, false, false, false];
 
   togglePlayerSize(index: number): void {
     this.isPlayerLarger[index] = !this.isPlayerLarger[index];
-    
   }
-
-
-  
 }

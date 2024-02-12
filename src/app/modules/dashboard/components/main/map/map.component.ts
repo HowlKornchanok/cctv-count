@@ -12,6 +12,7 @@ import { ZoomToCentralPin } from './zoomto-central-pin/zoomto-central-pin.compon
 import { ModalService } from './services/modal.service';
 import { MapDataService } from './services/map-data.service';
 import { Subscription } from 'rxjs';
+
 @Component({
   selector: '[map]',
   standalone: true,
@@ -77,7 +78,6 @@ export class MapComponent implements OnInit,OnDestroy {
   
   addPin(coordinates: number[], label: string): void {
     const pinElement = this.createPinElement(label);
-    const buttonElement = this.createPinButton(label);
     const pinText = this.createPinText(label);
 
     const pinOverlay = new Overlay({
@@ -87,12 +87,6 @@ export class MapComponent implements OnInit,OnDestroy {
       stopEvent: false,
     });
 
-    const buttonOverlay = new Overlay({
-      position: fromLonLat(coordinates),
-      positioning: 'center-center',
-      element: buttonElement,
-      stopEvent: false,
-    });
 
     const TextOverlay = new Overlay({
       position: fromLonLat(coordinates),
@@ -104,8 +98,15 @@ export class MapComponent implements OnInit,OnDestroy {
 
 
     pinElement.addEventListener('click', () => {
-      this.openMapModal(coordinates);
+      const location = this.jsonData.find(item => item.lat === coordinates[1] && item.lon === coordinates[0]);
+      if (location) {
+        this.openMapModal(location);
+      } else {
+        console.error(`Location with coordinates ${coordinates} not found.`);
+      }
     });
+    
+    
 
     this.map.addOverlay(pinOverlay);
     this.map.addOverlay(TextOverlay);
@@ -132,31 +133,8 @@ export class MapComponent implements OnInit,OnDestroy {
 
     return pinElement;
   }
-  createPinButton(label: string): HTMLElement {
-    const container = document.createElement('div');
-    container.className = 'ol-zoom-to-central-pin ol-unselectable ol-control';
-    container.style.width = '80px';
-    container.style.right = '-40px';
-    container.style.top = '20px';
-    container.style.position = 'center';
-  
-    const buttonElement = document.createElement('button');
-    buttonElement.className = 'pin-button';
-    buttonElement.style.width = '80px';
-    buttonElement.style.height = '40px';
-  
 
-
-    const TextElement = document.createElement('text');
-    TextElement.style.position = 'center';
-    TextElement.innerText = 'Open Modal';
-    buttonElement.style.lineHeight = '1';
-
-    buttonElement.appendChild(TextElement);
-    container.appendChild(buttonElement);
   
-    return container;
-  }
 
   
 
@@ -169,13 +147,11 @@ export class MapComponent implements OnInit,OnDestroy {
   }
 
 
-  openMapModal(pinCoordinates: number[]): void {
-    
-    console.log('Pin Coordinates:', pinCoordinates);
+  openMapModal(location: any): void {
     this.showModal = true;
-    this.modalDataService.setPinCoordinates(pinCoordinates);  
-
+    this.modalDataService.setLocationData(location.location_no);
   }
+  
 
   closeModal() {
     this.showModal = false;

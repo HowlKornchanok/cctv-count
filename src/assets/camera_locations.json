@@ -8,22 +8,26 @@
       {
         "camera_no": 1,
         "status": "active",
-        "days_after_last_maintenance": 280
+        "days_after_last_maintenance": 280,
+        "streaming_link": "http://dummy-streaming.com/camera1"
       },
       {
         "camera_no": 2,
         "status": "active",
-        "days_after_last_maintenance": 202
+        "days_after_last_maintenance": 202,
+        "streaming_link": "http://dummy-streaming.com/camera2"
       },
       {
         "camera_no": 3,
         "status": "active",
-        "days_after_last_maintenance": 202
+        "days_after_last_maintenance": 202,
+        "streaming_link": "http://dummy-streaming.com/camera3"
       },
       {
         "camera_no": 4,
         "status": "active",
-        "days_after_last_maintenance": 202
+        "days_after_last_maintenance": 202,
+        "streaming_link": "http://dummy-streaming.com/camera4"
       }
     ]
   },
@@ -36,27 +40,32 @@
       {
         "camera_no": 1,
         "status": "active",
-        "days_after_last_maintenance": 56
+        "days_after_last_maintenance": 56,
+        "streaming_link": "http://dummy-streaming.com/camera5"
       },
       {
         "camera_no": 2,
         "status": "active",
-        "days_after_last_maintenance": 46
+        "days_after_last_maintenance": 46,
+        "streaming_link": "http://dummy-streaming.com/camera6"
       },
       {
         "camera_no": 3,
         "status": "active",
-        "days_after_last_maintenance": 77
+        "days_after_last_maintenance": 77,
+        "streaming_link": "http://dummy-streaming.com/camera7"
       },
       {
         "camera_no": 4,
         "status": "active",
-        "days_after_last_maintenance": 261
+        "days_after_last_maintenance": 261,
+        "streaming_link": "http://dummy-streaming.com/camera8"
       },
       {
         "camera_no": 5,
         "status": "inactive",
-        "days_after_last_maintenance": 294
+        "days_after_last_maintenance": 294,
+        "streaming_link": ""
       }
     ]
   },
@@ -69,50 +78,58 @@
       {
         "camera_no": 1,
         "status": "inactive",
-        "days_after_last_maintenance": 310
+        "days_after_last_maintenance": 310,
+        "streaming_link": ""
       },
       {
         "camera_no": 2,
         "status": "inactive",
-        "days_after_last_maintenance": 303
+        "days_after_last_maintenance": 303,
+        "streaming_link": ""
       },
       {
         "camera_no": 3,
         "status": "active",
-        "days_after_last_maintenance": 136
+        "days_after_last_maintenance": 136,
+        "streaming_link": "http://dummy-streaming.com/camera9"
       },
       {
         "camera_no": 4,
         "status": "active",
-        "days_after_last_maintenance": 210
+        "days_after_last_maintenance": 210,
+        "streaming_link": "http://dummy-streaming.com/camera10"
       }
     ]
   },
   {
     "location_no": 4,
     "location_name": "Intersection 4",
-    "lat": 7.56889471676959, 
+    "lat": 7.56889471676959,
     "lon": 99.65769411474704,
     "cameras": [
       {
         "camera_no": 1,
         "status": "inactive",
-        "days_after_last_maintenance": 310
+        "days_after_last_maintenance": 310,
+        "streaming_link": ""
       },
       {
         "camera_no": 2,
         "status": "active",
-        "days_after_last_maintenance": 13
+        "days_after_last_maintenance": 13,
+        "streaming_link": "http://dummy-streaming.com/camera11"
       },
       {
         "camera_no": 3,
         "status": "active",
-        "days_after_last_maintenance": 136
+        "days_after_last_maintenance": 136,
+        "streaming_link": "http://dummy-streaming.com/camera12"
       },
       {
         "camera_no": 4,
         "status": "active",
-        "days_after_last_maintenance": 210
+        "days_after_last_maintenance": 210,
+        "streaming_link": "http://dummy-streaming.com/camera13"
       }
     ]
   }

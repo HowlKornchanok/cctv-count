@@ -1,109 +1,27 @@
-<div class="flex flex-row modal-overlay z-[20]">
-  <div class="modal-container justify-items-between rounded-lg z-[20]">
-    <div class="modal-header" >
-      <div class=" col-span-4  flex justify-center items-center">
-        <div class="px-2" *ngIf="getPinCoordinatesForCamera('Camera 1') !== null">
-          <p class="w-2/10 bg-white p-2 rounded-lg  text-bold">Pin Coordinates: {{ getPinCoordinatesForCamera('Camera 1') | json }}</p>
+<div class="blackdrop-overlay"></div>
+<div class="flex flex-row modal-overlay  z-[20]">
+  <div class="modal-container scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin -thumb-white scrollbar-track-gray-100 dark:scrollbar-thumb-night-700 dark:scrollbar-track-night-800 grid grid-cols-1  justify-items-between rounded-lg z-[20]">
+    <div class="modal-header sticky top-0  z-[10] uppercase flex items-center ">
+
+        <div *ngIf="jsonData.length > 0">
+          <h2>{{ jsonData[locationNumberNum - 1]?.location_name }}</h2>
         </div>
-      <img src="assets/icons/close.svg" alt="Close" class="close-button py-4" (click)="closeModal()" />
-    </div>
+        <div>
+          <img src="assets/icons/close.svg" alt="Close" class="close-button py-4" (click)="closeModal()" />
+        </div>
 
     </div>
-  
-    
 
-
-  <div class="flex-col justify-items-between" style="height: 150%;">
-    <div class="modal-content flex  justify-between gap-4">
-      <!-- Live Camera Player 1 -->
-        <div class="relative mb-4" (click)="togglePlayerSize(0)" [ngClass]="{ 'larger': isPlayerLarger[0] }">
+    <div class="flex-col justify-items-between">
+      <div class="modal-content grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <div *ngFor="let camera of jsonData[locationNumberNum - 1]?.cameras; let i = index" class="w-full">
           <div class="video-player-wrapper">
-            <vg-player>
-              <vg-overlay-play></vg-overlay-play>
-
-              <vg-controls>
-                <vg-play-pause></vg-play-pause>
-                <vg-fullscreen></vg-fullscreen>
-              </vg-controls>
-              <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin>
-                <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-                <source src="http://static.videogular.com/assets/videos/videogular.ogg" type="video/ogg">
-                <source src="http://static.videogular.com/assets/videos/videogular.webm" type="video/webm">
-              </video>
-            </vg-player>
+            <video controls class="w-full">
+              <source [src]="camera.streaming_link" type="video/mp4">
+            </video>
           </div>
-          <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[0].name }}</p>
         </div>
-
-
-
-
-
-      <div class="relative  mb-4" (click)="togglePlayerSize(1)" [ngClass]="{ 'larger': isPlayerLarger[1] }">
-        <div class="video-player-wrapper">
-          <vg-player>
-            <vg-overlay-play></vg-overlay-play>
-
-            <vg-controls>
-              <vg-play-pause></vg-play-pause>
-              <vg-fullscreen></vg-fullscreen>
-            </vg-controls>
-            <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin>
-              <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-              <source src="http://static.videogular.com/assets/videos/videogular.ogg" type="video/ogg">
-              <source src="http://static.videogular.com/assets/videos/videogular.webm" type="video/webm">
-            </video>
-          </vg-player>
-        </div>
-          <div class="absolute top-0 right-0 p-2">
-            <i class="fa fa-search-plus" (click)="togglePlayerSize(1)"></i>
-          </div>
-          <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[1].name }}</p>
-        </div>
-    </div>
-
-
-
-    <div class="modal-content flex justify-between gap-4">
-      <div class="relative" (click)="togglePlayerSize(2)" [ngClass]="{ 'larger': isPlayerLarger[2] }">
-        <div class="video-player-wrapper">
-          <vg-player>
-            <vg-overlay-play></vg-overlay-play>
-
-            <vg-controls>
-              <vg-play-pause></vg-play-pause>
-              <vg-fullscreen></vg-fullscreen>
-            </vg-controls>
-            <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin>
-              <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-              <source src="http://static.videogular.com/assets/videos/videogular.ogg" type="video/ogg">
-              <source src="http://static.videogular.com/assets/videos/videogular.webm" type="video/webm">
-            </video>
-          </vg-player>
-        </div>
-        <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[2].name }}</p>
-      </div>
-
-
-      <div class="relative" (click)="togglePlayerSize(3)" [ngClass]="{ 'larger': isPlayerLarger[3] }">
-        <div class="video-player-wrapper">
-          <vg-player>
-            <vg-overlay-play></vg-overlay-play>
-
-            <vg-controls>
-              <vg-play-pause></vg-play-pause>
-              <vg-fullscreen></vg-fullscreen>
-            </vg-controls>
-            <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin>
-              <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-              <source src="http://static.videogular.com/assets/videos/videogular.ogg" type="video/ogg">
-              <source src="http://static.videogular.com/assets/videos/videogular.webm" type="video/webm">
-            </video>
-          </vg-player>
-        </div>
-        <p class="absolute top-0 left-0 bg-white p-2">{{ cameras[3].name }}</p>
       </div>
     </div>
   </div>
-</div>
 </div>

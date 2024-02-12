@@ -35,17 +35,21 @@
     <div class="border-b border-dashed border-gray-200 dark:border-night-500"></div>
 
     <ul class="my-2 mx-4">
-      <li
-        class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover:text-primary-500">
-        Language
-      </li>
-      <li
-      routerLink="/dashboard/setting"
+      <li [attr.i18n]="currentLanguage ? 'th' : '@@translate'" (click)="toggleLanguage()"
+      class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover:text-primary-500">
+      Language
+  </li>
+  
+
+    
+  
+      <li 
+      routerLink="/dashboard/setting" i18n="@@Settings"
         class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover:text-primary-500">
         Settings
       </li>
       <li
-        routerLink="/auth"
+        routerLink="/auth"  i18n="@@SignOut"
         class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover:text-primary-500">
         Sign out
       </li>

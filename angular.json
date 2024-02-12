@@ -4,8 +4,17 @@
   "newProjectRoot": "projects",
   "projects": {
     "angular-tailwind": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "th": {
+            "translation" : "src/locale/messages.th.xlf",
+            "baseHref": "th/"
+          }
+        }
+            },
       "projectType": "application",
-      "schematics": {
+      "schematics": { 
         "@schematics/angular:component": {
           "style": "scss"
         },
@@ -20,6 +29,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize":[
+              "th"
+            ],
             "outputPath": "dist/angular-tailwind",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -90,8 +102,7 @@
             },
             "development": {
               "buildTarget": "angular-tailwind:build:development"
-            }
-          },
+            }          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {

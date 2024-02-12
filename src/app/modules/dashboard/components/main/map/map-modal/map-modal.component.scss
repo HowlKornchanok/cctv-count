@@ -1,41 +1,46 @@
+.blackdrop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0rem;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1px); 
+}
 
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: absolute;
+    top: 0rem;
+    left: -4.5rem;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(1px); 
   }
 
   
   
   .modal-container {
-    position: fixed;
+    position: relative;
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    height: 80%;
+    max-width: 90%;
     background: url('/assets/4intersections.jpg') no-repeat center center fixed;
     background-size: cover;
     opacity: 1;
+    max-height: calc(90%);
   }
   
   .modal-header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
   }
   
   .close-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: rgb(66, 66, 66);
     cursor: pointer;
   }
   
@@ -53,11 +58,6 @@
   
   .bg-gray-200 {
     background-color: #e5e7eb; /* Adjust the background color as needed */
-  }
-  
-  .fa-search-plus {
-    cursor: pointer;
-    font-size: 1.5rem;
   }
   
   .absolute {
