@@ -5,6 +5,7 @@ import { AnalyticsComponent} from './pages/analytics/analytics.component';
 import { MainComponent } from './pages/main/main.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { SettingComponent } from './pages/setting/setting.component';
+import { AuthGuardService } from 'src/app/core/guards/auth-guard.service';
 
 const routes: Routes = [
   
@@ -16,7 +17,11 @@ const routes: Routes = [
       { path: 'main', component: MainComponent },
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'history', component:HistoryComponent},
-      { path: 'setting', component: SettingComponent},
+      { path: 'setting', 
+        component: SettingComponent, 
+        canActivate: [AuthGuardService], 
+        data: { roles: ['admin'] } 
+      },
       { path: '**', redirectTo: 'error/404' },
     ],
   },

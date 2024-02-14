@@ -5,17 +5,22 @@ import { Injectable } from '@angular/core';
 })
 export class JwtService {
 
-  encodeBase64(payload: any): string {
-    const payloadString = JSON.stringify(payload);
-    const encodedPayload = btoa(payloadString); // Using btoa to base64 encode
-    console.log('JwtService - Encoded payload:', payload, ' => ', encodedPayload);
-    return encodedPayload;
+  encodeBase64(payload: any, role: string): string {
+    const payloadWithRole = { ...payload, role }; // Adding role to a new object
+    const payloadString = JSON.stringify(payloadWithRole);
+    return btoa(payloadString); // Encoding to base64
   }
 
   decodeBase64(encodedPayload: string): any {
-    const decodedString = atob(encodedPayload); // Using atob to base64 decode
-    const decodedPayload = JSON.parse(decodedString);
-    console.log('JwtService - Decoded payload:', encodedPayload, ' => ', decodedPayload);
-    return decodedPayload;
+    try {
+      const decodedString = atob(encodedPayload); // Decoding from base64
+      const decodedPayload = JSON.parse(decodedString);
+      const userId = decodedPayload.userId; // Retrieve userId from decoded payload
+      return { ...decodedPayload, userId }; // Include userId in the returned object
+    } catch (error) {
+      console.error('Error decoding JWT token:', error);
+      return null; // Return null or handle the error as appropriate
+    }
   }
+  
 }

@@ -37,12 +37,23 @@ export class SidebarMenu2Component implements OnInit {
   currentLanguage: string = 'th';
   translations = this.languageService.translations
 
-
+  
 
   ngOnInit(): void {
     this.languageService.currentLanguage$.subscribe(language => {
       this.currentLanguage = language;
     });
+  }
+
+  toggleLanguage() {
+    this.languageService.toggleLanguage();
+    
+    
+ 
+  }
+
+  public toggleSidebar() {
+    this.menu2Service.toggleSidebar();
   }
 
   public toggleMenu(subMenu: SubMenuItem) {
@@ -54,11 +65,9 @@ export class SidebarMenu2Component implements OnInit {
   }
 
   logout(): void {
-    // Call the logout function from AuthService
     this.authService.logout();
     this.router.navigate(['/auth/sign-in']);
-    // Additional logic if needed after logout
-    console.log('User logged out'); // Add a console log statement
+    console.log('User logged out'); 
   }
 
 }

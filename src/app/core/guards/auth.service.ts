@@ -9,6 +9,7 @@ import { JwtService } from './jwt.service';
 export class AuthService {
   isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
   userRole!: string; // Variable to store user's role
+  userId!: string; // Variable to store user's ID
 
   constructor(
     private http: HttpClient,
@@ -24,7 +25,7 @@ export class AuthService {
         const matchedUser = users.find((user) => user.username === username && user.password === password);
 
         if (matchedUser) {
-          this.setAuthenticated(matchedUser.username, matchedUser.role); // Pass role to setAuthenticated
+          this.setAuthenticated(matchedUser.username, matchedUser.role, matchedUser.id); // Pass role and user ID to setAuthenticated
           return true;
         } else {
           this.isAuthenticated = false;
@@ -46,35 +47,38 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userRole'); // Remove user role on logout
+    localStorage.removeItem('userId'); // Remove user ID on logout
     this.isAuthenticated = false;
     console.log('AuthService - Logging out user');
     this.router.navigate(['/auth/sign-in']); // Redirect to sign-in page on logout
   }
 
-  private setAuthenticated(username: string, role: string): void {
-    const tokenPayload = { username: username, expiration: Date.now() + 3600000 }; // 1 hour timeout
-    const token = this.jwtService.encodeBase64(tokenPayload);
+  private setAuthenticated(username: string, role: string, userId: string): void {
+    const tokenPayload = { username: username, role: role, userId: userId, expiration: Date.now() + 3600000 }; // Include userId in the payload
+    const token = this.jwtService.encodeBase64(tokenPayload, role); // Pass role here
     localStorage.setItem('token', token);
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('userRole', role); // Store user role
+    localStorage.setItem('userId', userId); // Store user ID
     this.userRole = role; // Set userRole property
+    this.userId = userId; // Set userId property
     this.isAuthenticated = true;
     console.log('AuthService - User authenticated:', this.isAuthenticated);
     console.log('AuthService - User role:', this.userRole); // Log user role to console
+    console.log('AuthService - User ID:', this.userId); // Log user ID to console
   }
+  
+  
   
   refreshTokenExpiration(): void {
     const token = localStorage.getItem('token');
     if (token) {
       const tokenPayload = this.jwtService.decodeBase64(token);
       tokenPayload.expiration = Date.now() + 3600000; // Refresh expiration time to 1 hour in the future
-      const newToken = this.jwtService.encodeBase64(tokenPayload);
+      const newToken = this.jwtService.encodeBase64(tokenPayload, localStorage.getItem('userRole') || ''); // Pass role here
       localStorage.setItem('token', newToken);
       console.log('AuthService - Token timeout refreshed.');
     }
   }
 
-  hasRole(role: string): boolean {
-    return this.isAuthenticated && this.userRole === role;
-  }
 }

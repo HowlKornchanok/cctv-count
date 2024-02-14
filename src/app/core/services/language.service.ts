@@ -21,6 +21,11 @@ export class LanguageService {
     return this.currentLanguageSubject.value;
   }
 
+  public get isTH(): boolean {
+    return this.getCurrentLanguage() == 'th';
+  }
+  
+
   toggleLanguage(): void {
     const newLanguage = this.getCurrentLanguage() === 'th' ? 'en' : 'th';
     this.currentLanguageSubject.next(newLanguage);

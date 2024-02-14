@@ -42,12 +42,7 @@ export const translations: { [key: string]: { [key: string]: string } } = {
     'Time': 'เวลา',
     'Speed': 'ความเร็ว',
     'Vehicle Type': 'ประเภทรถ',
-    'Refresh' : 'รีเฟรช'
-
-
-
-
-
+    'Refresh' : 'รีเฟรช',
 
   },
   'en': {
@@ -94,8 +89,6 @@ export const translations: { [key: string]: { [key: string]: string } } = {
     'Speed': 'Speed',
     'Vehicle Type': 'Vehicle Type',
     'Refresh' : 'Refresh'
-
-
 
   }
 };

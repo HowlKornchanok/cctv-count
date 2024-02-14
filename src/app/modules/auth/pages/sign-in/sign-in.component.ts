@@ -55,7 +55,7 @@ export class SignInComponent {
     if (loginSuccess) {
 
 
-      window.location.href = 'http://localhost:4200/';
+      window.location.href = '/';
     } else {
       // Handle failed login (e.g., show an error message)
       console.error('SignInComponent - Authentication failed');

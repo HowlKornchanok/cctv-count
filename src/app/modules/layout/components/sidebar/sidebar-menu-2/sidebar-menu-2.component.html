@@ -7,6 +7,7 @@
       </small>
     </div>
     
+
     <ul class="flex flex-col space-y-1">
       <!-- List items -->
       <div
@@ -31,6 +32,23 @@
         </span>
       </div>
     </div>
+
+
+    
+    <div
+      (click)="toggleLanguage()"
+      class="group flex h-9 cursor-pointer items-center justify-start rounded p-2 hover:bg-gray-100 dark:hover:bg-night-600">
+  
+      <svg-icon
+        [src]="currentLanguage === 'th' ? 'assets/icons/thailand-flag-icon.svg' : 'assets/icons/united-kingdom-flag-icon.svg'"
+        [svgClass]="'h-5 w-5 text-gray-400 dark:text-night-400'">
+      </svg-icon>
+    
+      <a class="ml-3 truncate text-xs font-semibold tracking-wide text-gray-600 focus:outline-none dark:text-night-100">
+        {{translations[currentLanguage]['language_toggle'] }}
+      </a>
+  
+  </div>
 
 
   
