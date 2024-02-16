@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { JwtService } from './jwt.service';
-import { WarningModalComponent } from './warning-modal/warning-modal.component';
+
 @Injectable({
   providedIn: 'root'
 })

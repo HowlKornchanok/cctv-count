@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { ModalService } from 'src/app/modules/dashboard/components/main/map/services/modal.service';
 import { LocationData, CameraData } from './location-data.interface';
 import { MapDataService } from '../services/map-data.service';
+import { LanguageService } from 'src/app/core/services/language.service';
+
 
 @Component({
   selector: 'app-map-modal',
@@ -21,8 +23,9 @@ export class MapModalComponent implements OnInit, OnDestroy {
   public locationData: LocationData[] = [];
   public locationNumberNum: number = 0; // Initialize with a default value
   private locationDataSubscription!: Subscription;
-
-  constructor(private modalService: ModalService, private mapDataService: MapDataService) {}
+  currentLanguage!: string;
+  translations = this.languageService.translations
+  constructor(private modalService: ModalService, private mapDataService: MapDataService, private languageService: LanguageService) {}
 
   ngOnInit(): void {
     this.locationDataSubscription = this.modalService.locationData$.subscribe(
@@ -31,12 +34,19 @@ export class MapModalComponent implements OnInit, OnDestroy {
         this.locationNumberNum = Number(locationNumber);
         this.locationData = this.jsonData.filter(item => item.location_no === this.locationNumberNum);
         console.log(this.locationNumberNum);
+        
+        
       }
     );
   
+
     this.mapDataService.getMapData().subscribe(data => {
       this.jsonData = data;
       console.log('Camera locations fetched successfully:', this.jsonData);
+    });
+
+    this.languageService.currentLanguage$.subscribe(language => {
+      this.currentLanguage = language;
     });
   }
   

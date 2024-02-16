@@ -9,25 +9,25 @@
         "camera_no": 1,
         "status": "active",
         "days_after_last_maintenance": 280,
-        "streaming_link": "http://dummy-streaming.com/camera1"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 2,
         "status": "active",
         "days_after_last_maintenance": 202,
-        "streaming_link": "http://dummy-streaming.com/camera2"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 3,
         "status": "active",
         "days_after_last_maintenance": 202,
-        "streaming_link": "http://dummy-streaming.com/camera3"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 4,
         "status": "active",
         "days_after_last_maintenance": 202,
-        "streaming_link": "http://dummy-streaming.com/camera4"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       }
     ]
   },
@@ -41,25 +41,25 @@
         "camera_no": 1,
         "status": "active",
         "days_after_last_maintenance": 56,
-        "streaming_link": "http://dummy-streaming.com/camera5"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 2,
         "status": "active",
         "days_after_last_maintenance": 46,
-        "streaming_link": "http://dummy-streaming.com/camera6"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 3,
         "status": "active",
         "days_after_last_maintenance": 77,
-        "streaming_link": "http://dummy-streaming.com/camera7"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 4,
         "status": "active",
         "days_after_last_maintenance": 261,
-        "streaming_link": "http://dummy-streaming.com/camera8"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 5,
@@ -91,13 +91,13 @@
         "camera_no": 3,
         "status": "active",
         "days_after_last_maintenance": 136,
-        "streaming_link": "http://dummy-streaming.com/camera9"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 4,
         "status": "active",
         "days_after_last_maintenance": 210,
-        "streaming_link": "http://dummy-streaming.com/camera10"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       }
     ]
   },
@@ -117,19 +117,19 @@
         "camera_no": 2,
         "status": "active",
         "days_after_last_maintenance": 13,
-        "streaming_link": "http://dummy-streaming.com/camera11"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 3,
         "status": "active",
         "days_after_last_maintenance": 136,
-        "streaming_link": "http://dummy-streaming.com/camera12"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       },
       {
         "camera_no": 4,
         "status": "active",
         "days_after_last_maintenance": 210,
-        "streaming_link": "http://dummy-streaming.com/camera13"
+        "streaming_link": "http://192.168.0.170:7051/video_feed"
       }
     ]
   }
